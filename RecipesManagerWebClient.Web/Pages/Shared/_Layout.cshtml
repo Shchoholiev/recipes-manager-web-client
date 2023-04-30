@@ -7,38 +7,93 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RecipesManagerWebClient.Web.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/svg+xml" href="~/assets/logo.svg">
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">RecipesManagerWebClient.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="navigation">
+            <p class="logo">Bite.</p>
+            <div class="nav-menu">
+                <a href="#" class="menu-item active">Home</a>
+                <a href="#" class="menu-item">Shopping lists</a>
+                <a href="#" class="menu-item">Menus</a>
+                <button class="create">Create</button>
             </div>
-        </nav>
+
+            <div class="search-box">
+                <input type="text" />
+                <img class="search" src="~/assets/search.svg" />
+            </div>
+            <button class="filter">
+                <img src="~/assets/filter.svg" alt="filter" />
+            </button>
+            <div class="avatar"></div>
+            <button class="create-small">
+                <img src="~/assets/add.svg" alt="create button" />
+            </button>
+            <ul class="menu-box">
+                <li class="box-item active-burger"><a href="index.html">Home</a></li>
+                <li class="box-item"><a href="#">Shopping lists</a></li>
+                <li class="box-item"><a href="#">Menus</a></li>
+            </ul>
+            <button class="burger create-small">
+                <img src="~/assets/burger.svg" alt="burger button" />
+            </button>
+        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
         </main>
+        <div class="filter-bar">
+            <div class="filter-area">
+                <p class="filter-title">Filter Search</p>
+                <div class="filter-date">
+                    <p>Date</p>
+                    <button class="filter-btn">All</button>
+                    <button class="filter-btn">Newest</button>
+                    <button class="filter-btn">Oldest</button>
+                    <button class="filter-btn">Popularity</button>
+                </div>
+                <div class="filter-time">
+                    <p>Time</p>
+                    <button class="filter-btn">Less then 10 mins</button>
+                    <button class="filter-btn ">10-21 mins</button>
+                    <button class="filter-btn">More then 20 mins</button>
+                </div>
+                <div class="filter-category">
+                    <p>Category</p>
+                    <button class="filter-btn">All</button>
+                    <button class="filter-btn ">Cereal</button>
+                    <button class="filter-btn">Vegetables</button>
+                    <button class="filter-btn">Dinner</button>
+                    <button class="filter-btn">Fast Food</button>
+                    <button class="filter-btn">Lunch</button>
+                    <button class="filter-btn">Breakfast</button>
+                    <button class="filter-btn">Local Dish</button>
+                </div>
+                <button class="apply-filter">Filter</button>
+
+            </div>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - RecipesManagerWebClient.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <footer>
+        <div class="socials">
+            <a href="#"><img src="assets/facebook.svg" alt="facebook" /></a>
+            <a href="#"><img src="assets/instagram.svg" alt="instagram" /></a>
+            <a href="#"><img src="assets/linkedin.svg" alt="linkedIn" /></a>
+            <a href="#"><img src="assets/twitter.svg" alt="twitter" /></a>
+            <a href="#"><img src="assets/github.svg" alt="github" /></a>
+        </div>
+        <p class="logo">Bite.</p>
+        <p class="copy">Copyright © 2023 Bite. Inc.</p>
+        <div class="support">
+            <a href="#">Terms of use</a>
+            <p>|</p>
+            <a href="#">Privacy Policy</a>
         </div>
     </footer>
 
