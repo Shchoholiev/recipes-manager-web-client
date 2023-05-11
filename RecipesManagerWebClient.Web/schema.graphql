@@ -1,0 +1,402 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  categories(pageNumber: Int! pageSize: Int!): PagedListOfCategoryDto!
+  category(id: String!): Category!
+  contacts(pageNumber: Int! pageSize: Int!): PagedListOfContactDto!
+  contact(id: String!): ContactDto!
+  recipe(id: String!): RecipeDto!
+  recipes(pageNumber: Int! pageSize: Int!): PagedListOfRecipeDto!
+  searchRecipes(recipeSearchType: RecipesSearchTypes! categoriesIds: [String!] pageNumber: Int! = 1 pageSize: Int! = 10 searchString: String! = "" authorId: String! = ""): PagedListOfRecipeDto!
+  menusPage(pageNumber: Int! pageSize: Int!): PagedListOfMenuDto!
+  menu(id: String!): MenuDto!
+  accessSharedRecipe(id: String!): SharedRecipeDto!
+  sharedRecipe(id: String!): SharedRecipeDto!
+  savedRecipes(pageNumber: Int! pageSize: Int! userId: String!): PagedListOfSavedRecipeDto!
+  savedRecipe(id: String!): SavedRecipeDto!
+  user(id: String!): UserDto!
+  currentUser: UserDto!
+  usersPage(pageNumber: Int! pageSize: Int!): PagedListOfUserDto!
+  yourSubscriptions(pageNumber: Int! pageSize: Int!): PagedListOfSubscriptionDto!
+  ownSubscriptions(pageNumber: Int! pageSize: Int!): PagedListOfSubscriptionDto!
+  authorsSubscriptions(pageNumber: Int! pageSize: Int! userId: String!): PagedListOfSubscriptionDto!
+  logsPage(pageNumber: Int! pageSize: Int!): PagedListOfLogDto!
+  log(id: String!): LogDto!
+  openAiLogsPage(pageNumber: Int! pageSize: Int!): PagedListOfOpenAiLogDto!
+  openAiLog(id: String!): OpenAiLogDto!
+  openAiLogsPageO(id: String! pageNumber: Int! pageSize: Int!): PagedListOfOpenAiLogDto!
+}
+
+type Mutation {
+  addSharedRecipe(dto: SharedRecipeCreateDtoInput!): SharedRecipeDto!
+  updateSharedRecipe(dto: SharedRecipeDtoInput!): SharedRecipeDto!
+  deleteSharedRecipe(dto: SharedRecipeDtoInput!): OperationDetails!
+  addCategory(category: CategoryInput!): Category!
+  register(register: RegisterModelInput!): TokensModel!
+  login(login: LoginModelInput!): TokensModel!
+  accessWebGuest(model: AccessWebGuestModelInput!): TokensModel!
+  accessAppleGuest(model: AccessAppleGuestModelInput!): TokensModel!
+  refreshUserToken(model: TokensModelInput!): TokensModel!
+  updateUser(userDto: UserDtoInput!): UpdateUserModel!
+  updateUserByAdmin(id: String! userDto: UserDtoInput!): UpdateUserModel!
+  addToRole(roleName: String! email: String!): TokensModel!
+  removeFromRole(roleName: String! email: String!): TokensModel!
+  addRole(roleDto: RoleCreateDtoInput!): RoleDto!
+  addContact(contact: ContactInput!): ContactDto!
+  updateContact(contact: ContactDtoInput!): ContactDto!
+  addMenu(menuDto: MenuInput!): MenuDto!
+  updateMenu(menuDto: MenuInput!): MenuDto!
+  deleteMenu(menuId: String!): OperationDetails!
+  sendMenuToEmails(menuId: String! emails: [String!]!): OperationDetails!
+  addSavedRecipe(dto: SavedRecipeCreateDtoInput!): SavedRecipeDto!
+  deleteSavedRecipe(id: String!): OperationDetails!
+  addSubscription(dto: SubscriptionCreateDtoInput!): SubscriptionDto!
+  updateSubscription(dto: SubscriptionDtoInput!): SubscriptionDto!
+  deleteSubscription(id: String!): OperationDetails!
+}
+
+enum ApplyPolicy {
+  BEFORE_RESOLVER
+  AFTER_RESOLVER
+  VALIDATION
+}
+
+input SharedRecipeDtoInput {
+  id: String!
+  recipeId: String!
+  visitsCount: Int!
+}
+
+input SharedRecipeCreateDtoInput {
+  recipeId: String!
+  visitsCount: Int!
+}
+
+type OpenAiLogDto {
+  id: String!
+  request: String!
+  response: String!
+  createdById: String!
+  createdDateUtc: DateTime!
+}
+
+type PagedListOfOpenAiLogDto {
+  items: [OpenAiLogDto!]!
+  pageNumber: Int!
+  pageSize: Int!
+  totalPages: Int!
+  totalItems: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type LogDto {
+  text: String!
+  level: LogLevels!
+}
+
+type PagedListOfLogDto {
+  items: [LogDto!]!
+  pageNumber: Int!
+  pageSize: Int!
+  totalPages: Int!
+  totalItems: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type PagedListOfSubscriptionDto {
+  items: [SubscriptionDto!]!
+  pageNumber: Int!
+  pageSize: Int!
+  totalPages: Int!
+  totalItems: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type PagedListOfUserDto {
+  items: [UserDto!]!
+  pageNumber: Int!
+  pageSize: Int!
+  totalPages: Int!
+  totalItems: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type UserDto {
+  id: String!
+  name: String
+  email: String
+  phone: String
+  refreshToken: String
+  password: String
+  refreshTokenExpiryDate: DateTime
+  appleDeviceId: UUID
+  webId: UUID
+  roles: [RoleDto!]!
+}
+
+type SavedRecipeDto {
+  id: String!
+  recipeId: String!
+}
+
+type PagedListOfSavedRecipeDto {
+  items: [SavedRecipeDto!]!
+  pageNumber: Int!
+  pageSize: Int!
+  totalPages: Int!
+  totalItems: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type SharedRecipeDto {
+  id: String!
+  recipeId: String!
+  visitsCount: Int!
+}
+
+type MenuDto {
+  id: String!
+  name: String!
+  recipes: [RecipeDto!]
+  notes: String
+  sentTo: [ContactDto!]
+  forDateUtc: DateTime
+}
+
+type PagedListOfMenuDto {
+  items: [MenuDto!]!
+  pageNumber: Int!
+  pageSize: Int!
+  totalPages: Int!
+  totalItems: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+enum RecipesSearchTypes {
+  PERSONAL
+  PUBLIC
+  SUBSCRIBED
+  SAVED
+}
+
+type PagedListOfRecipeDto {
+  items: [RecipeDto!]!
+  pageNumber: Int!
+  pageSize: Int!
+  totalPages: Int!
+  totalItems: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type RecipeDto {
+  id: String!
+  name: String!
+  thumbnail: ImageDto
+  ingredients: [IngredientDto!]
+  ingredientsText: String
+  categories: [Category!]!
+  calories: Int
+  servingsCount: Int
+  isPublic: Boolean!
+  isSaved: Boolean!
+  createdById: String!
+  createdBy: UserDto!
+  createdDateUtc: DateTime!
+}
+
+type ContactDto {
+  id: String!
+  name: String
+  email: String
+  phone: String
+}
+
+type PagedListOfContactDto {
+  items: [ContactDto!]!
+  pageNumber: Int!
+  pageSize: Int!
+  totalPages: Int!
+  totalItems: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type Category {
+  id: String!
+  name: String!
+}
+
+type PagedListOfCategoryDto {
+  items: [Category!]!
+  pageNumber: Int!
+  pageSize: Int!
+  totalPages: Int!
+  totalItems: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type OperationDetails {
+  isSuccessful: Boolean!
+  timestampUtc: DateTime!
+}
+
+input CategoryInput {
+  name: String!
+}
+
+type TokensModel {
+  accessToken: String!
+  refreshToken: String!
+}
+
+input RegisterModelInput {
+  name: String!
+  email: String
+  phone: String
+  password: String!
+}
+
+input LoginModelInput {
+  email: String
+  phone: String
+  password: String!
+}
+
+input AccessWebGuestModelInput {
+  webId: UUID!
+}
+
+input AccessAppleGuestModelInput {
+  name: String!
+  appleDeviceId: UUID!
+}
+
+input TokensModelInput {
+  accessToken: String!
+  refreshToken: String!
+}
+
+type UpdateUserModel {
+  tokens: TokensModel!
+  user: UserDto!
+}
+
+input UserDtoInput {
+  id: String!
+  name: String
+  email: String
+  phone: String
+  refreshToken: String
+  password: String
+  refreshTokenExpiryDate: DateTime
+  appleDeviceId: UUID
+  webId: UUID
+  roles: [RoleDtoInput!]!
+}
+
+type RoleDto {
+  id: String!
+  name: String!
+}
+
+input RoleCreateDtoInput {
+  name: String!
+}
+
+input ContactInput {
+  name: String
+  email: String
+  phone: String
+}
+
+input ContactDtoInput {
+  id: String!
+  name: String
+  email: String
+  phone: String
+}
+
+input MenuInput {
+  id: String
+  name: String!
+  recipesIds: [String!]
+  notes: String
+  forDateUtc: DateTime
+}
+
+input SavedRecipeCreateDtoInput {
+  recipeId: String!
+}
+
+type SubscriptionDto {
+  id: String!
+  authorId: String
+  createdById: String
+  isAccessFull: Boolean
+}
+
+input SubscriptionCreateDtoInput {
+  authorId: String!
+}
+
+input SubscriptionDtoInput {
+  id: String!
+  authorId: String
+  createdById: String
+  isAccessFull: Boolean
+}
+
+input RoleDtoInput {
+  id: String!
+  name: String!
+}
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime
+
+scalar UUID
+
+type IngredientDto {
+  id: String
+  name: String!
+  units: String
+  amount: Float
+  caloriesPerUnit: Int
+  totalCalories: Int
+}
+
+type ImageDto {
+  id: String!
+  originalPhotoGuid: UUID!
+  smallPhotoGuid: UUID!
+  extension: String!
+  md5Hash: String!
+  imageUploadState: ImageUploadStates!
+}
+
+enum LogLevels {
+  TRACE
+  DEBUG
+  INFORAMTION
+  WARNING
+  ERROR
+  CRITICAL
+  NONE
+}
+
+enum ImageUploadStates {
+  STARTED
+  UPLOADED
+  FAILED
+}
