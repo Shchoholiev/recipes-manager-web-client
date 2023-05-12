@@ -1,8 +1,5 @@
 ﻿@page "/search"
 @model RecipesManagerWebClient.Web.Pages.Recipes.SearchModel
-@{
-
-}
 
 <div class="dish-container">
     <div class="sidebar">
@@ -11,6 +8,10 @@
         <button class="sidebar-btn">Personal</button>
     </div>
     <div class="dishes">
-
+        @foreach (var recipe in Model.Recipes)
+        {
+            <p>@recipe.Name</p>
+        }
     </div>
+</div>
 
