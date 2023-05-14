@@ -6,7 +6,7 @@ public class Recipe
 
     public string Name { get; set; }
 
-    // public ImageDto? Thumbnail { get; set; }
+    public Image? Thumbnail { get; set; }
 
     // public List<IngredientDto>? Ingredients { get; set; }
 
@@ -17,8 +17,6 @@ public class Recipe
     public int? Calories { get; set; }
 
     public int? ServingsCount { get; set; }
-
-    public bool IsPublic { get; set; }
 
     public bool IsSaved { get; set; }
 

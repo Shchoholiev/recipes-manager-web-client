@@ -10,7 +10,9 @@
     <div class="dishes">
         @foreach (var recipe in Model.Recipes)
         {
+            var imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
             <p>@recipe.Name</p>
+            <img src="@imageUrl">
         }
     </div>
 </div>
