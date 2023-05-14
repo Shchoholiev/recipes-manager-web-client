@@ -20,43 +20,46 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
     
         public async Task OnGetAsync() 
         { 
+            var search = Request.Query["search"];
+
             var request = new GraphQLRequest 
             { 
                 Query = @"
-                query Recipe($recipeId: String!) {
-                recipe(id: $recipeId) {
-                    id
-                    name
-                    ingredients {
-                    name
+                query RecipeSearchResult($recipeSearchType: RecipesSearchTypes!, $pageNumber: Int!, $pageSize: Int!, $categoriesIds: [String!], $searchString: String!, $authorId: String!) {
+                    searchRecipes(recipeSearchType: $recipeSearchType, pageNumber: $pageNumber, pageSize: $pageSize, categoriesIds: $categoriesIds, searchString: $searchString, authorId: $authorId) {
+                        items {
+                            name
+                            createdById
+                            categories {
+                                id
+                            }
+                            ingredientsText
+                            ingredients {
+                                name
+                                units
+                            }
+                            createdBy {
+                                name
+                                id
+                            }
+                        },
+                        totalItems
                     }
-                    thumbnail {
-                        imageUploadState
-                        id
-                        smallPhotoGuid
-                        extension
-                    }
-                    ingredientsText
-                    categories {
-                    name
-                    id
-                    }
-                    calories
-                    servingsCount
-                    isSaved
-                    createdById
-                    createdDateUtc
-                }
                 }", 
                 Variables = new 
-                {
-                    recipeId = "645d32a6537ef8eec90db9f4"
-                }
+                { 
+                    recipeSearchType = "PUBLIC",
+                    pageNumber = 1,
+                    pageSize = 10,
+                    categoriesIds = new string[0],
+                    searchString = search.FirstOrDefault() ?? string.Empty,
+                    authorId = ""
+                }  
             }; 
     
             var response = await _graphQLClient.SendMutationAsync<dynamic>(request); 
-            var jsonResponse = JsonConvert.SerializeObject(response.Data.recipe);
-            this.Recipes = new List<Recipe> { JsonConvert.DeserializeObject<Recipe>(jsonResponse) };
+            var jsonResponse = JsonConvert.SerializeObject(response.Data.searchRecipes.items);
+            this.Recipes = JsonConvert.DeserializeObject<List<Recipe>>(jsonResponse);
         } 
 
     }

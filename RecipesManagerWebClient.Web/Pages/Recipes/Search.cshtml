@@ -10,10 +10,43 @@
     <div class="dishes">
         @foreach (var recipe in Model.Recipes)
         {
-            var imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid + "." + recipe.Thumbnail.Extension;
+            @* var imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid + "." + recipe.Thumbnail.Extension; *@
             <p>@recipe.Name</p>
-            <img src="@imageUrl">
+            @* <img src="@imageUrl"> *@
         }
     </div>
-</div>
 
+    <form id="recipeForm">
+        <!-- Form fields go here -->
+        <input type="text" name="Name" value="Sausage"/>
+        @* <input type="text" name="Categories[0].Id" value="dfdg"/> *@
+        <input type="text" name="Categories[0].Name" value="Meat"/>
+
+        <input type="submit"/>
+    </form>
+
+    <a href="/search?search=pork">Find port</a>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#recipeForm').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the form data
+            var formData = $(this).serialize();
+
+            // Send the AJAX request
+            $.post('https://localhost:7281/api/recipes', formData)
+                .done(function (response) {
+                    // Process the response here
+                    @* $('#result').text(response); // Display the response in a designated element *@
+                    console.log(response)
+                })
+                .fail(function (error) {
+                    console.log(error)
+                });
+        });
+    });
+</script>
