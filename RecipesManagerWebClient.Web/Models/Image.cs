@@ -4,9 +4,9 @@ public class Image
 {
     public string Id { get; set; }
 
-    public Guid OriginalPhotoGuid { get; set; }
+    public string OriginalPhotoGuid { get; set; }
 
-    public Guid SmallPhotoGuid { get; set; }
+    public string SmallPhotoGuid { get; set; }
 
     public string Extension { get; set; }
 
