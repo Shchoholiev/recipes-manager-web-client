@@ -1,6 +1,7 @@
-﻿.dish-container {
+﻿.container {
     width: 90%;
     margin-top: 3%;
+    margin-left: 5%;
     display: grid;
     grid-template-columns: 0.2fr 1fr;
 
@@ -29,6 +30,7 @@
 }
 
 .sidebar-btn {
+    cursor: pointer;
     width: 120px;
     height: 40px;
     font-size: 16px;
@@ -58,7 +60,10 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 50px;
+    align-content: baseline;
+    row-gap: 50px;
+    column-gap: 5%;
+    margin: 0 auto;
 
     @media screen and (max-width: 770px) {
         width: 100%;
@@ -72,10 +77,13 @@
 }
 
 .dish-item {
+    cursor:pointer;
     position: relative;
     width: 30%;
     height: 250px;
     border-radius: 10px;
+    background-size: cover !important;
+    background-position: center !important;
 
     @media screen and (max-width: 1485px) {
         width: 45%;
@@ -93,6 +101,10 @@
         width: 90%;
     }
 }
+    .dish-item:hover {
+        opacity: 0.9;
+        transition: 0.3s;
+    }
 
 .dish-title {
     position: absolute;
@@ -118,7 +130,7 @@
     }
 
     @media screen and (max-width: 995px) {
-        top: 55%;
+        top: 63%;
         width: 70%;
     }
 
@@ -164,7 +176,7 @@
     }
 }
 
-.timer img {
+ .timer img{
     position: absolute;
     top: 80%;
     width: 25px;
@@ -225,19 +237,19 @@
     @media screen and (max-width: 995px) {
         font-size: 16px;
         top: 83%;
-        left: 64%
+        left: 65%;
     }
 
     @media screen and (max-width: 560px) {
         font-size: 18px;
         top: 81%;
-        left: 67%
+        left: 67%;
     }
 
     @media screen and (max-width:380px) {
         font-size: 16px;
         top: 83%;
-        left: 65%
+        left: 65%;
     }
 }
 

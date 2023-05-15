@@ -1,17 +1,83 @@
 ﻿@page "/search"
 @model RecipesManagerWebClient.Web.Pages.Recipes.SearchModel
 
-<div class="dish-container">
+<div class="container">
     <div class="sidebar">
-        <button class="sidebar-btn sidebar-active">Public</button>
-        <button class="sidebar-btn">Saved</button>
-        <button class="sidebar-btn">Personal</button>
+        <button class="sidebar-btn" data-query="PUBLIC">Public</button>
+        <button class="sidebar-btn" data-query="SAVED">Saved</button> <!--THIS BUTTON DOESN'T WORK AS THERE'RE NO ELEMENTS WITH SAVED TYPE. CHANGE IT LATER-->
+        <button class="sidebar-btn" data-query="PERSONAL">Personal</button>
     </div>
     <div class="dishes">
         @foreach (var recipe in Model.Recipes)
         {
-            <p>@recipe.Name</p>
+            var imageUrl = "/assets/no-image.svg";
+            if (recipe.Thumbnail != null)
+            {
+                imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
+            }
+
+            <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+                <div class="dish-title">@recipe.Name</div>
+                <div class="dish-author">@recipe.CreatedBy.Name</div>
+                <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
+                <div class="dish-time">20 min</div>
+                @if (recipe.IsSaved)
+                {
+                    <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
+                }
+                else
+                {
+                    <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
+                }
+            </div>
         }
+
     </div>
 </div>
+<script>
+    let activeButton = null;
+    const sidebarButtons = document.querySelectorAll(".sidebar-btn");
+
+    function activateSidebarButton(event) {
+        event.preventDefault(); // Prevent page refresh
+
+        const clickedButton = event.target;
+
+        sidebarButtons.forEach((button) => {
+            button.classList.remove("sidebar-active");
+        });
+
+        clickedButton.classList.add("sidebar-active");
+
+        const queryType = clickedButton.getAttribute("data-query");
+        activeButton = queryType;
+
+        window.location.href = `/search?type=${queryType}`;
+    }
+
+    sidebarButtons.forEach((button) => {
+        button.addEventListener("click", activateSidebarButton);
+
+        // Check if a button should be active based on the stored state or if it's the first visit
+        const storedQueryType = sessionStorage.getItem("activeButton");
+        if (storedQueryType) {
+            if (button.getAttribute("data-query") === storedQueryType) {
+                button.classList.add("sidebar-active");
+                activeButton = storedQueryType;
+            }
+        } else {
+            if (button.getAttribute("data-query") === "PUBLIC") {
+                button.classList.add("sidebar-active");
+                activeButton = "PUBLIC";
+            }
+        }
+    });
+
+    window.addEventListener("beforeunload", () => {
+        // Store the active button state in sessionStorage
+        sessionStorage.setItem("activeButton", activeButton);
+    });
+
+
+</script>
 

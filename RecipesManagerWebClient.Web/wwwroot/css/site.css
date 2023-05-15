@@ -45,10 +45,7 @@ body {
     background-color: var(--white);
     width: 100%;
 }
-p {
-    margin: 0px;
-    padding: 0px;
-}
+
 .container {
     width: 90%;
     min-height: 80vh;
@@ -235,6 +232,7 @@ header {
     height: 40px;
     background-color: var(--green);
     border: none;
+    padding-top: 3px;
     border-radius: 10px;
     box-sizing: border-box;
 
@@ -270,7 +268,7 @@ header {
 .avatar {
     width: 75px;
     height: 75px;
-    background-color: var(--grey);
+    background-image: url('/assets/avatar.svg');
     border-radius: 50px;
     justify-self: end;
     background-size: cover;

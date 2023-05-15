@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - RecipesManagerWebClient.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!--<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RecipesManagerWebClient.Web.styles.css" asp-append-version="true" />
     <link rel="icon" type="image/svg+xml" href="~/assets/logo.svg">
@@ -22,7 +22,7 @@
             </div>
 
             <div class="search-box">
-                <input type="text" />
+                <input type="text" id="search"/>
                 <img class="search" src="~/assets/search.svg" />
             </div>
             <button class="filter">
@@ -42,11 +42,7 @@
             </button>
         </div>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
             @RenderBody()
-
-        </main>
         <div class="filter-bar">
             <div class="filter-area">
                 <p class="filter-title">Filter Search</p>
