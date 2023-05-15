@@ -1,7 +1,11 @@
+using RecipesManagerWebClient.Web.Configurations;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddGraphQlCLient(builder.Configuration);
+builder.Services.AddScoped<JwtMiddleware>();
 
 var app = builder.Build();
 
@@ -18,6 +22,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseMiddleware<JwtMiddleware>();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
