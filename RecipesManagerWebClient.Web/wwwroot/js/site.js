@@ -9,7 +9,7 @@ const filterButtons = document.querySelectorAll(".filter-btn");
 const filter = document.querySelector(".filter");
 const filterBar = document.querySelector(".filter-bar");
 const applyFilter = document.querySelector(".apply-filter");
-
+const searchInput = document.getElementById("search");
 function toggleMenu() {
     if (menuBox.classList.contains("showMenu")) {
         menuBox.classList.remove("showMenu");
@@ -52,3 +52,11 @@ filterButtons.forEach((button) => {
     button.addEventListener("click", activateFilterButton);
 
 })
+
+searchInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        const searchTerm = searchInput.value;
+        const encodedSearchTerm = encodeURIComponent(searchTerm);
+        window.location.href = "/searchresult?search=" + encodedSearchTerm;
+    }
+});

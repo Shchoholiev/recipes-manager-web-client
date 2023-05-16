@@ -1,19 +1,37 @@
 ﻿@page "/search"
 @model RecipesManagerWebClient.Web.Pages.Recipes.SearchModel
 
-<div class="dish-container">
+<div class="container">
     <div class="sidebar">
-        <button class="sidebar-btn sidebar-active">Public</button>
-        <button class="sidebar-btn">Saved</button>
-        <button class="sidebar-btn">Personal</button>
+        <button class="sidebar-btn" data-query="PUBLIC">Public</button>
+        <button class="sidebar-btn" data-query="SAVED">Saved</button> <!--THIS BUTTON DOESN'T WORK AS THERE'RE NO ELEMENTS WITH SAVED TYPE. CHANGE IT LATER-->
+        <button class="sidebar-btn" data-query="PERSONAL">Personal</button>
     </div>
     <div class="dishes">
         @foreach (var recipe in Model.Recipes)
         {
-            @* var imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid + "." + recipe.Thumbnail.Extension; *@
-            <p>@recipe.Name</p>
-            @* <img src="@imageUrl"> *@
+            var imageUrl = "/assets/no-image.svg";
+            if (recipe.Thumbnail != null)
+            {
+                imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
+            }
+
+            <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+                <div class="dish-title">@recipe.Name</div>
+                <div class="dish-author">@recipe.CreatedBy.Name</div>
+                <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
+                <div class="dish-time">20 min</div>
+                @if (recipe.IsSaved)
+                {
+                    <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
+                }
+                else
+                {
+                    <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
+                }
+            </div>
         }
+
     </div>
 
     <form id="recipeForm">
@@ -27,26 +45,49 @@
 
     <a href="/search?search=pork">Find port</a>
 </div>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 <script>
-    $(document).ready(function () {
-        $('#recipeForm').submit(function (event) {
-            event.preventDefault(); // Prevent the default form submission
+    let activeButton = null;
+    const sidebarButtons = document.querySelectorAll(".sidebar-btn");
 
-            // Get the form data
-            var formData = $(this).serialize();
+    function activateSidebarButton(event) {
+        event.preventDefault(); // Prevent page refresh
 
-            // Send the AJAX request
-            $.post('https://localhost:7281/api/recipes', formData)
-                .done(function (response) {
-                    // Process the response here
-                    @* $('#result').text(response); // Display the response in a designated element *@
-                    console.log(response)
-                })
-                .fail(function (error) {
-                    console.log(error)
-                });
+        const clickedButton = event.target;
+
+        sidebarButtons.forEach((button) => {
+            button.classList.remove("sidebar-active");
         });
+
+        clickedButton.classList.add("sidebar-active");
+
+        const queryType = clickedButton.getAttribute("data-query");
+        activeButton = queryType;
+
+        window.location.href = `/search?type=${queryType}`;
+    }
+
+    sidebarButtons.forEach((button) => {
+        button.addEventListener("click", activateSidebarButton);
+
+        // Check if a button should be active based on the stored state or if it's the first visit
+        const storedQueryType = sessionStorage.getItem("activeButton");
+        if (storedQueryType) {
+            if (button.getAttribute("data-query") === storedQueryType) {
+                button.classList.add("sidebar-active");
+                activeButton = storedQueryType;
+            }
+        } else {
+            if (button.getAttribute("data-query") === "PUBLIC") {
+                button.classList.add("sidebar-active");
+                activeButton = "PUBLIC";
+            }
+        }
     });
+
+    window.addEventListener("beforeunload", () => {
+        // Store the active button state in sessionStorage
+        sessionStorage.setItem("activeButton", activeButton);
+    });
+
+
 </script>

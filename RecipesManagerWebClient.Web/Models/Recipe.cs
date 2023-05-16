@@ -22,7 +22,7 @@ public class Recipe
 
     public string CreatedById { get; set; }
 
-    // public UserDto CreatedBy { get; set; }
+    public User CreatedBy { get; set; }
 
     public DateTime CreatedDateUtc { get; set; }
 }

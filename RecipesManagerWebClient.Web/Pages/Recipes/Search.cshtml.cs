@@ -16,51 +16,54 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
         public SearchModel(GraphQLHttpClient graphQLClient) 
         { 
             _graphQLClient = graphQLClient; 
-        } 
-    
-        public async Task OnGetAsync() 
-        { 
-            var search = Request.Query["search"];
+        }
 
-            var request = new GraphQLRequest 
-            { 
-                Query = @"
-                query RecipeSearchResult($recipeSearchType: RecipesSearchTypes!, $pageNumber: Int!, $pageSize: Int!, $categoriesIds: [String!], $searchString: String!, $authorId: String!) {
-                    searchRecipes(recipeSearchType: $recipeSearchType, pageNumber: $pageNumber, pageSize: $pageSize, categoriesIds: $categoriesIds, searchString: $searchString, authorId: $authorId) {
-                        items {
-                            name
-                            createdById
-                            categories {
-                                id
-                            }
-                            ingredientsText
-                            ingredients {
-                                name
-                                units
-                            }
-                            createdBy {
-                                name
-                                id
-                            }
-                        },
-                        totalItems
-                    }
-                }", 
-                Variables = new 
-                { 
-                    recipeSearchType = "PUBLIC",
+        public async Task OnGetAsync()
+        {
+            var search = Request.Query["search"];
+            var type = Request.Query["type"];
+            var request = new GraphQLRequest
+            {
+                Query = @"query SearchRecipes($recipeSearchType: RecipesSearchTypes!, $authorId: String!, $searchString: String!, $pageSize: Int!, $pageNumber: Int!, $categoriesIds: [String!]) {
+                 searchRecipes(recipeSearchType: $recipeSearchType, authorId: $authorId, searchString: $searchString, pageSize: $pageSize, pageNumber: $pageNumber, categoriesIds: $categoriesIds) {
+                 pageNumber
+                 pageSize
+                 totalItems
+                 hasNextPage
+                 hasPreviousPage
+                 totalPages
+                 items {
+                 createdBy {
+                 name
+                 }
+                 isSaved
+                 name
+                 thumbnail {
+                 imageUploadState
+                 id
+                 smallPhotoGuid
+                 extension
+                 }
+                 }
+                 }
+                 }",
+
+                Variables = new
+                {
+                    recipeSearchType = type.FirstOrDefault() ?? "PUBLIC",
                     pageNumber = 1,
                     pageSize = 10,
                     categoriesIds = new string[0],
                     searchString = search.FirstOrDefault() ?? string.Empty,
                     authorId = ""
-                }  
-            }; 
-    
-            var response = await _graphQLClient.SendMutationAsync<dynamic>(request); 
+                }
+            };
+
+            var response = await _graphQLClient.SendMutationAsync<dynamic>(request);
             var jsonResponse = JsonConvert.SerializeObject(response.Data.searchRecipes.items);
             this.Recipes = JsonConvert.DeserializeObject<List<Recipe>>(jsonResponse);
-        } 
+
+        }
 
     }
 }
