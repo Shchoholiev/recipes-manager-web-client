@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using RecipesManagerWebClient.Web.Models;
+using RecipesManagerWebClient.Web.Network;
 
 namespace RecipesManagerWebClient.Web.Pages.Recipes
 {
@@ -11,11 +12,11 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
     {
         public List<Recipe> Recipes { get; set; }
 
-        private readonly GraphQLHttpClient _graphQLClient;
+        private readonly ApiClient _apiClient;
 
-        public SearchResultModel(GraphQLHttpClient graphQLClient)
+        public SearchResultModel(ApiClient apiClient)
         {
-            _graphQLClient = graphQLClient;
+            _apiClient = apiClient;
         }
 
         public async Task OnGetAsync()
@@ -58,7 +59,7 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
                 }
             };
 
-            var response = await _graphQLClient.SendMutationAsync<dynamic>(request);
+            var response = await _apiClient.QueryAsync(request);
             var jsonResponse = JsonConvert.SerializeObject(response.Data.searchRecipes.items);
             this.Recipes = JsonConvert.DeserializeObject<List<Recipe>>(jsonResponse);
 
