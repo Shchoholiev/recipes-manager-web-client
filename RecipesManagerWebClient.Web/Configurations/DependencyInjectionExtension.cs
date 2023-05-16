@@ -1,15 +1,26 @@
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
+using RecipesManagerWebClient.Web.Network;
 
 namespace RecipesManagerWebClient.Web.Configurations;
 
 public static class DependencyInjectionExtension
 {
-    public static IServiceCollection AddGraphQlCLient(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApiClient(this IServiceCollection services, IConfiguration configuration)
 	{
+        services.AddHttpContextAccessor();
+
+		var apiUrl = configuration.GetValue<string>("ApiUrl");
+		services.AddHttpClient("ApiHttpClient", client => {
+			client.BaseAddress = new Uri(apiUrl + "api/");
+		});
+
         services.AddScoped<GraphQLHttpClient>(p => 
-            new GraphQLHttpClient(configuration.GetValue<string>("ApiUrl") + "graphql", new NewtonsoftJsonSerializer())
+            new GraphQLHttpClient(apiUrl + "graphql", new NewtonsoftJsonSerializer())
         );
+
+        services.AddScoped<AuthenticationService>();
+        services.AddScoped<ApiClient>();
 
 		return services;
 	}
