@@ -4,8 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddGraphQlCLient(builder.Configuration);
-builder.Services.AddScoped<JwtMiddleware>();
+builder.Services.AddApiClient(builder.Configuration);
 
 var app = builder.Build();
 
@@ -22,10 +21,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseMiddleware<JwtMiddleware>();
-
-app.UseAuthentication();
-app.UseAuthorization();
+// app.UseAuthentication();
+// app.UseAuthorization();
 
 app.MapRazorPages();
 
