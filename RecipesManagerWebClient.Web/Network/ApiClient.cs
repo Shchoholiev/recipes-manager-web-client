@@ -40,7 +40,10 @@ public class ApiClient
         return model;
     }
 
-    public async Task<T> PostFormAsync<T>(string url, MultipartFormDataContent formData) {
+    public async Task<T> PostFormAsync<T>(string url, IFormCollection formCollection) {
+        await SetAuthenticationAsync();
+
+        var formData = MapIFormCollectionToForm(formCollection);
         var response = await _httpClient.PostAsync(url, formData);
         var responseContent = await response.Content.ReadAsStringAsync();
 
@@ -49,6 +52,8 @@ public class ApiClient
     }
 
     public async Task<T> PostJsonAsync<T>(string url, Object obj) {
+        await SetAuthenticationAsync();
+
         var response = await _httpClient.PostAsJsonAsync(url, obj);
         var responseContent = await response.Content.ReadAsStringAsync();
 
@@ -56,7 +61,10 @@ public class ApiClient
         return model;
     }
 
-    public async Task<T> PutFormAsync<T>(string url, MultipartFormDataContent formData) {
+    public async Task<T> PutFormAsync<T>(string url, IFormCollection formCollection) {
+        await SetAuthenticationAsync();
+
+        var formData = MapIFormCollectionToForm(formCollection);
         var response = await _httpClient.PutAsync(url, formData);
         var responseContent = await response.Content.ReadAsStringAsync();
 
@@ -65,11 +73,36 @@ public class ApiClient
     }
 
     public async Task<T> PutJsonAsync<T>(string url, Object obj) {
+        await SetAuthenticationAsync();
+        
         var response = await _httpClient.PutAsJsonAsync(url, obj);
         var responseContent = await response.Content.ReadAsStringAsync();
 
         var model = JsonConvert.DeserializeObject<T>(responseContent);
         return model;
+    }
+
+    private MultipartFormDataContent MapIFormCollectionToForm(IFormCollection formCollection) {
+        var formDataContent = new MultipartFormDataContent();
+
+        foreach (var key in formCollection.Keys)
+        {
+            foreach (var value in formCollection[key])
+            {
+                if (value != null)
+                {
+                    formDataContent.Add(new StringContent(value), key);
+                }
+            }
+        }
+
+        foreach (var file in formCollection.Files)
+        {
+            var fileContent = new StreamContent(file.OpenReadStream());
+            formDataContent.Add(fileContent, file.Name, file.FileName);
+        }
+
+        return formDataContent;
     }
 
     private async Task SetAuthenticationAsync()
