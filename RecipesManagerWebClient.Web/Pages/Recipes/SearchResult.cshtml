@@ -1,7 +1,5 @@
 ﻿@page "/searchresult"
 @model RecipesManagerWebClient.Web.Pages.Recipes.SearchResultModel
-@{
-}
 <div class="container">
     <div class="content">
         <p>Search result</p>
@@ -20,7 +18,7 @@
                 <div class="dish-title">@recipe.Name</div>
                 <div class="dish-author">@recipe.CreatedBy.Name</div>
                 <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
-                <div class="dish-time">20 min</div>
+                <div class="dish-time">@recipe.MinutesToCook min</div>
                 @if (recipe.IsSaved)
                 {
                     <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
@@ -39,17 +37,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     const searchTerm = urlParams.get("search");
     countResults.innerHTML = dishes.length + " results"
-    const searchInput = document.getElementById("search");
-    if (searchInput) {
-        searchInput.value = searchTerm;
-
-        searchInput.addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
-                const newSearchTerm = searchInput.value;
-                const encodedSearchTerm = encodeURIComponent(newSearchTerm);
-                window.location.href = "/searchresult?search=" + encodedSearchTerm;
-            }
-        });
-    }
+    
 
 </script>

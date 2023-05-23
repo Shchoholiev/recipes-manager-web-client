@@ -3,7 +3,7 @@
     margin-top: 3%;
     margin-left: 5%;
     display: grid;
-    grid-template-rows: 0.2fr 1fr;
+    grid-template-rows: 60px 1fr;
 
     @media screen and (max-width: 770px) {
         margin-top: 10%;

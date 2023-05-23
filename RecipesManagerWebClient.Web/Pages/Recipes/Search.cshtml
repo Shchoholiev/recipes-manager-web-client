@@ -20,7 +20,7 @@
                 <div class="dish-title">@recipe.Name</div>
                 <div class="dish-author">@recipe.CreatedBy.Name</div>
                 <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
-                <div class="dish-time">20 min</div>
+                <div class="dish-time">@recipe.MinutesToCook min</div>
                 @if (recipe.IsSaved)
                 {
                     <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
@@ -34,8 +34,8 @@
 
     </div>
 
-    <form id="recipeForm">
-        <!-- Form fields go here -->
+    <!--<form id="recipeForm">
+         Form fields go here 
         <input type="text" name="Name" value="Sausage"/>
         @* <input type="text" name="Categories[0].Id" value="dfdg"/> *@
         <input type="text" name="Categories[0].Name" value="Meat"/>
@@ -43,7 +43,7 @@
         <input type="submit"/>
     </form>
 
-    <a href="/search?search=pork">Find port</a>
+    <a href="/search?search=pork">Find port</a>-->
 </div>
 <script>
     let activeButton = null;

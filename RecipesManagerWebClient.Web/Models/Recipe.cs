@@ -12,9 +12,10 @@ public class Recipe
 
     public string? IngredientsText { get; set; }
 
-    // public List<CategoryDto> Categories { get; set; }
+    public List<Category> Categories { get; set; }
 
     public int? Calories { get; set; }
+    public int? MinutesToCook { get; set; }
 
     public int? ServingsCount { get; set; }
 

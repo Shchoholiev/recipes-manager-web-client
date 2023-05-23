@@ -401,19 +401,22 @@ footer .copy {
 }
 
 .filter-area {
-    width: 700px;
+    width: 600px;
     background-color: var(--white);
-    height: 600px;
+    height: 500px;
     margin: 0 auto;
     margin-top: 5%;
     border-radius: 15px;
-    padding: 40px 90px;
+    padding: 40px 60px;
     font-weight: 600;
     display: grid;
+    grid-template-rows: 0.1fr 0.7fr 0.2fr;
+    align-items:center;
+
 
     @media screen and (max-width: 1024px) {
-        width: 600px;
-        height: 580px;
+        width: 550px;
+        height: 480px;
         padding: 30px 50px;
     }
 
@@ -426,7 +429,7 @@ footer .copy {
 
     @media screen and (max-width: 380px) {
         width: 300px;
-        height: 660px;
+        height: 600px;
         padding: 30px 30px;
     }
 }
@@ -447,7 +450,7 @@ footer .copy {
 
 .filter-btn {
     cursor: pointer;
-    padding: 8px;
+    padding: 15px;
     font-size: 16px;
     border-radius: 10px;
     background-color: var(--white);
@@ -461,7 +464,7 @@ footer .copy {
     }
 
     @media screen and (max-width: 768px) {
-        margin: 3px 5px;
+        margin: 5px 10px;
     }
 }
 
@@ -473,14 +476,14 @@ footer .copy {
 
 .apply-filter {
     cursor: pointer;
-    padding: 10px 70px;
+    width: 220px;
+    height: 45px;
     font-size: 16px;
     border: none;
     border-radius: 10px;
     background-color: var(--green);
     color: var(--white);
     font-weight: 600;
-    margin-top: 15px;
     justify-self: center;
 
     @media screen and (max-width: 1024px) {

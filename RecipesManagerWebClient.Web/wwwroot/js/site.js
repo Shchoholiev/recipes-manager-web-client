@@ -38,13 +38,7 @@ filter.addEventListener("click", () => {
 
 function activateFilterButton(event) {
     const clickedButton = event.target;
-    const filterButtons = document.querySelectorAll(".filter-btn");
-
-    filterButtons.forEach((button) => {
-        button.classList.remove("filter-active");
-    });
-
-    clickedButton.classList.add("filter-active");
+    clickedButton.classList.toggle("filter-active");
 }
 
 
@@ -59,4 +53,10 @@ searchInput.addEventListener("keydown", function (event) {
         const encodedSearchTerm = encodeURIComponent(searchTerm);
         window.location.href = "/searchresult?search=" + encodedSearchTerm;
     }
+});
+
+applyFilter.addEventListener("click", function () {
+    const activeButtons = document.querySelectorAll(".filter-btn.filter-active");
+    const searchTerm = Array.from(activeButtons).map(button => encodeURIComponent(button.innerHTML)).join("&");
+    window.location.href = "/searchresult?search=" + searchTerm;
 });
