@@ -1,0 +1,42 @@
+﻿@page "/searchresult"
+@model RecipesManagerWebClient.Web.Pages.Recipes.SearchResultModel
+<div class="container">
+    <div class="content">
+        <p>Search result</p>
+        <p class="count-results"></p>
+    </div>
+    <div class="dishes">
+        @foreach (var recipe in Model.Recipes)
+        {
+            var imageUrl = "/assets/no-image.svg";
+            if (recipe.Thumbnail != null)
+            {
+                imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
+            }
+
+            <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+                <div class="dish-title">@recipe.Name</div>
+                <div class="dish-author">@recipe.CreatedBy.Name</div>
+                <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
+                <div class="dish-time">@recipe.MinutesToCook min</div>
+                @if (recipe.IsSaved)
+                {
+                    <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
+                }
+                else
+                {
+                    <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
+                }
+            </div>
+        }
+    </div>
+</div>
+<script>
+    const countResults = document.querySelector(".count-results")
+    const dishes = document.querySelectorAll(".dish-item")
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchTerm = urlParams.get("search");
+    countResults.innerHTML = dishes.length + " results"
+    
+
+</script>

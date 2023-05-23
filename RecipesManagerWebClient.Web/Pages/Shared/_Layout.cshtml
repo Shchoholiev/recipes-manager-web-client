@@ -1,51 +1,114 @@
-﻿<!DOCTYPE html>
+﻿@using RecipesManagerWebClient.Web.Models
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - RecipesManagerWebClient.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!--<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RecipesManagerWebClient.Web.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/svg+xml" href="~/assets/logo.svg">
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">RecipesManagerWebClient.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="navigation">
+            <p class="logo">Bite.</p>
+            <div class="nav-menu">
+                <a href="/search" class="menu-item">Home</a>
+                <a href="/lists" class="menu-item">Shopping lists</a>
+                <a href="/menus" class="menu-item">Menus</a>
+                <button class="create">Create</button>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - RecipesManagerWebClient.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            <div class="search-box">
+                <input type="text" id="search"/>
+                <img class="search" src="~/assets/search.svg" />
+            </div>
+            <button class="filter">
+                <img src="~/assets/filter.svg" alt="filter" />
+            </button>
+            <div class="avatar"></div>
+            <button class="create-small">
+                <img src="~/assets/add.svg" alt="create button" />
+            </button>
+            <ul class="menu-box">
+                <li class="box-item active-burger"><a href="/search">Home</a></li>
+                <li class="box-item"><a href="/lists">Shopping lists</a></li>
+                <li class="box-item"><a href="/menus">Menus</a></li>
+            </ul>
+            <button class="burger create-small">
+                <img src="~/assets/burger.svg" alt="burger button" />
+            </button>
+        </div>
+    </header>
+            @RenderBody()
+        <div class="filter-bar">
+            <div class="filter-area">
+                <p class="filter-title">Filter Search</p>
+                <div class="filter-category">
+                @{
+                    var categoriesProperty = Model.GetType().GetProperty("Categories");
+                    var categories = categoriesProperty != null ? categoriesProperty.GetValue(Model) as IEnumerable<dynamic> : null;
+
+                    var uniqueCategories = categories?
+                    .Select(c => c.Name)
+                    .Distinct()
+                    .ToList();
+                }
+
+                @if (uniqueCategories != null && uniqueCategories.Any())
+                {
+                    @foreach (var category in uniqueCategories)
+                    {
+                        <button class="filter-btn">@category</button>
+                    }
+                }
+            </div>
+                <button class="apply-filter">Filter</button>
+
+            </div>
+        </div>
+
+
+    <footer>
+        <div class="socials">
+            <a href="#"><img src="assets/facebook.svg" alt="facebook" /></a>
+            <a href="#"><img src="assets/instagram.svg" alt="instagram" /></a>
+            <a href="#"><img src="assets/linkedin.svg" alt="linkedIn" /></a>
+            <a href="#"><img src="assets/twitter.svg" alt="twitter" /></a>
+            <a href="#"><img src="assets/github.svg" alt="github" /></a>
+        </div>
+        <p class="logo">Bite.</p>
+        <p class="copy">Copyright © 2023 Bite. Inc.</p>
+        <div class="support">
+            <a href="#">Terms of use</a>
+            <p>|</p>
+            <a href="#">Privacy Policy</a>
         </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Get the current path of the website
+        var currentPath = window.location.pathname;
 
+        // Get all the menu-item links
+        var menuItems = document.querySelectorAll('.menu-item');
+
+        // Loop through the menu items
+        menuItems.forEach(function (menuItem) {
+            // Check if the href attribute matches the current path
+            if (menuItem.getAttribute('href') === currentPath) {
+                // Add the 'active' class to the matching menu item
+                menuItem.classList.add('active');
+            }
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
+    
 </body>
 </html>
