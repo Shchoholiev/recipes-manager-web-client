@@ -13,6 +13,8 @@ public class ApiClient
 
     private readonly AuthenticationService _authenticationService;
 
+    public string JwtToken;
+
     public ApiClient(
         IHttpClientFactory httpClientFactory,
         GraphQLHttpClient graphQLClient,
@@ -107,8 +109,7 @@ public class ApiClient
 
     private async Task SetAuthenticationAsync()
     {
-        var authToken = await _authenticationService.GetAuthTokenAsync();
-        _graphQLClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+        _graphQLClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.JwtToken);
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.JwtToken);
     }
 }
