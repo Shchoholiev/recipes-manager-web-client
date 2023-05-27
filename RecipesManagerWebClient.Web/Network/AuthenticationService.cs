@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using GraphQL;
 using GraphQL.Client.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RecipesManagerWebClient.Web.Models.Identity;
 
@@ -30,8 +31,16 @@ public class AuthenticationService
         }
         if (IsJwtTokenExpired(jwtToken))
         {
-            jwtToken = await RefreshToken();
+            try
+            {
+                jwtToken = await RefreshToken();
+            }
+            catch (Exception ex)
+            {
+                new RedirectToPageResult("/login");
+            }
         }
+
         return jwtToken;
     }
 
@@ -143,15 +152,14 @@ public class AuthenticationService
                     }",
             Variables = new { model = new { accessToken = accessToken, refreshToken = refreshToken } }
         };
-
-        var response = await _graphQLClient.SendMutationAsync<dynamic>(request);
-        var jsonResponse = JsonConvert.SerializeObject(response.Data.refreshUserToken);
-        var tokens = JsonConvert.DeserializeObject<TokensModel>(jsonResponse);
-        _httpContext.Response.Cookies.Delete("accessToken");
-        _httpContext.Response.Cookies.Delete("refreshToken");
-        _httpContext.Response.Cookies.Append("accessToken", tokens.AccessToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
-        _httpContext.Response.Cookies.Append("refreshToken", tokens.RefreshToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
+            var response = await _graphQLClient.SendMutationAsync<dynamic>(request);
+            var jsonResponse = JsonConvert.SerializeObject(response.Data.refreshUserToken);
+            var tokens = JsonConvert.DeserializeObject<TokensModel>(jsonResponse);
+            _httpContext.Response.Cookies.Delete("accessToken");
+            _httpContext.Response.Cookies.Delete("refreshToken");
+            _httpContext.Response.Cookies.Append("accessToken", tokens.AccessToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
+            _httpContext.Response.Cookies.Append("refreshToken", tokens.RefreshToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
 
         return tokens.AccessToken;
-    }
+        }
 }
