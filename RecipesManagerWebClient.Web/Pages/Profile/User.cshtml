@@ -1,0 +1,56 @@
+﻿@page "/user"
+@model RecipesManagerWebClient.Web.Pages.Profile.UserModel
+@{
+}
+<div class="container">
+    <div class="user-info">
+        <div class="profile-picture"></div>
+        <p class="name">@Model.User.Name</p>
+        <button class="edit">Edit</button>
+        <button class="logout">Log Out</button>
+        <p class="num-of-recipes info">
+            <span class="number">@Model.Recipes.Count(r => r.CreatedById == Model.User.Id)</span> recipes
+        </p>
+        <p class="num-of-followers info">
+            <span class="number">5</span> followers
+        </p>
+        <p class="bio">
+            Hi! I'm @Model.User.Name and i'm a chef at Puzata Hata in Lviv city.
+        </p>
+    </div>
+    <div class="dishes">
+        <div class="dish-item">
+            <div class="dish-title">Traditional spare ribs baked</div>
+            <div class="dish-author">You</div>
+            <div class="timer"><img src="assets/timer.svg" /></div>
+            <div class="dish-time">20 min</div>
+            <div class="is-private"><img src="assets/public.svg" /></div>
+        </div>
+        <div class="dish-item">
+            <div class="dish-title">Traditional spare ribs baked</div>
+            <div class="dish-author">You</div>
+            <div class="timer"><img src="assets/timer.svg" /></div>
+            <div class="dish-time">20 min</div>
+            <div class="is-private"><img src="assets/private.svg" /></div>
+        </div>
+        <div class="dish-item">
+            <div class="dish-title">Traditional spare ribs baked</div>
+            <div class="dish-author">You</div>
+            <div class="timer"><img src="assets/timer.svg" /></div>
+            <div class="dish-time">20 min</div>
+            <div class="is-private"><img src="assets/private.svg" /></div>
+        </div>
+        <div class="dish-item">
+            <div class="dish-title">Traditional spare ribs baked</div>
+            <div class="dish-author">You</div>
+            <div class="timer"><img src="assets/timer.svg" /></div>
+            <div class="dish-time">20 min</div>
+            <div class="is-private"><img src="assets/public.svg" /></div>
+        </div>
+
+
+
+
+
+    </div>
+</div>

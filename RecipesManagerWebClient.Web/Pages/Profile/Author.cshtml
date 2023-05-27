@@ -1,0 +1,63 @@
+﻿@page "/author/"
+@model RecipesManagerWebClient.Web.Pages.Profile.AuthorModel
+@{
+    string userId = Request.Query["userId"];
+    var user = Model.Recipes.FirstOrDefault(r => r.CreatedBy.Id == userId)?.CreatedBy;
+    int recipeCount = Model.Recipes.Count(r => r.CreatedBy.Id == userId);
+}
+<div class="container">
+
+    @if (user != null)
+    {
+          <div class="author-info">
+                <div class="author-picture"></div>
+                <p class="name">@user.Name</p>
+                <button class="follow">Follow</button>
+                <p class="num-of-recipes info">
+                    <span class="number">@recipeCount</span> recipes
+                </p>
+                <p class="num-of-followers info">
+                    <span class="number">1 568</span> followers
+                </p>
+                <p class="bio">
+                    Hi! I'm @user.Name and i'm a chef at Puzata Hata in Lviv city.
+                </p>
+            </div>
+            <div class="dishes">
+                @foreach (var recipe in Model.Recipes)
+                {
+                    if (recipe.CreatedBy.Id == userId)
+                    {
+                    var imageUrl = "/assets/no-image.svg";
+                    if (recipe.Thumbnail != null)
+                    {
+                        imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
+                    }
+
+                    <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+                        <div class="dish-title">@recipe.Name</div>
+                        <div class="dish-author">@recipe.CreatedBy.Name</div>
+                        <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
+                        <div class="dish-time">@recipe.MinutesToCook min</div>
+                        @if (recipe.IsSaved)
+                        {
+                            <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
+                        }
+                        else
+                        {
+                            <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
+                        }
+                    </div>
+                    }
+                }
+            </div>
+            
+    }
+    else
+    {
+        <p>User not found.</p>
+    }
+    
+
+    
+</div>
