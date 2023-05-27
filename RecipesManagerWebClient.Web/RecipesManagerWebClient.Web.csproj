@@ -18,4 +18,8 @@
     <Content Remove="wwwroot\js\Search.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>
