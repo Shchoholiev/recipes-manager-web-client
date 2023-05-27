@@ -1,3 +1,4 @@
+using RecipesManagerWebClient.Web;
 using RecipesManagerWebClient.Web.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,7 @@ app.UseRouting();
 
 // app.UseAuthentication();
 // app.UseAuthorization();
+app.ConfogureGlobalUserMiddleware();
 
 app.MapRazorPages();
 

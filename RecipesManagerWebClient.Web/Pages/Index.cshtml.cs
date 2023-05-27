@@ -22,8 +22,8 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
-        var request = new GraphQLRequest 
-        { 
+        var request = new GraphQLRequest
+        {
             Query = @"
             query Recipe($recipeId: String!) {
                 recipe(id: $recipeId) {
@@ -51,12 +51,12 @@ public class IndexModel : PageModel
                     createdById
                     createdDateUtc
                 }
-            }", 
-            Variables = new 
+            }",
+            Variables = new
             {
                 recipeId = "645d32a6537ef8eec90db9f4"
             }
-        }; 
+        };
 
         var response = await _apiClient.QueryAsync<Recipe>(request, "recipe");
     }
