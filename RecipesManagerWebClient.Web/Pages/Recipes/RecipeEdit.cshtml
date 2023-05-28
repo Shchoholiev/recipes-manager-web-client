@@ -1,0 +1,136 @@
+﻿@page "/recipeedit"
+@model RecipesManagerWebClient.Web.Pages.Recipes.RecipeEditModel
+@{
+}
+<div class="container">
+    <div class="mobile-navigation">
+        <div class="come-back-arrow">
+            <img src="assets/come-back-arrow.svg" alt="come-back-arrow">
+        </div>
+    </div>
+    <form b-0kiidxu7e7 action="/submit" method="post" class="edit-recipe">
+        <div class="dish-wrapper">
+            <div class="dish">
+                @if (Model.Recipe.Thumbnail != null)
+                {
+                    var imageUrl = Model.ImageUrl + Model.Recipe.Thumbnail.OriginalPhotoGuid.ToString() + "." + Model.Recipe.Thumbnail.Extension;
+                    <div class="dish-picture">
+                        <img src="@imageUrl" class="dish-image" id="currentPhoto" alt="" onclick="openFilePicker()" />
+                    </div>
+                }
+                else
+                {
+                    <div class="dish-picture">
+                        <img src="/assets/no-image.svg" class="dish-image" id="currentPhoto" alt="No Image" onclick="openFilePicker()" />
+                    </div>
+                }
+                <!--<img src="~/assets/camera.svg" class="camera"> -->
+                <input type="file" id="photoUpload" name="photoUpload" accept="image/*" style="display: none;" onchange="handleFileUpload(event)">
+            </div>
+        </div>
+
+        <div class="side-bar">
+            <div class="form-group">
+                <label for="dishTitle">Title: </label>
+                <input type="text" id="dishTitle" name="dishTitle" class="input-with-label" value="@Model.Recipe.Name">
+            </div>
+
+            <div class="form-group">
+                <label for="dishCategory">Category: </label>
+                <input type="text" id="dishCategory" name="dishCategory" class="input-with-label" value="@Model.Recipe.Categories.FirstOrDefault()?.Name">
+            </div>
+
+            <div class="form-group">
+                <div class="timetocook">
+                    <img b-c3mbu1qqil src="~/assets/stopwatch.svg" />
+                    <label for="dishTimeToCook">Time: </label>
+                </div>
+                <input type="number" id="dishTimeToCook" name="TimeToCook" class="input-with-label time-input" value="@Model.Recipe.MinutesToCook">min
+            </div>
+
+            <div class="form-group">
+                <div class="calories">
+                    <img b-c3mbu1qqil src="~/assets/calories.svg" />
+                    <label for="dishCalories">Calories: </label>
+                </div>
+                <input type="number" id="dishCalories" name="Calories" class="input-with-label calories-input" value="@Model.Recipe.Calories" />calories
+            </div>
+
+            <div class="form-group">
+                <label for="dishMakePrivat">Make Privat: </label>
+                <div class="toggle-button" onclick="toggleButton()">
+                    <div class="toggle-circle"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn">
+            <div class="ingredients-overview">
+                <button class="title switch-buttons" id="btn1">Ingredients</button>
+            </div>
+            <div class="procedure-overview">
+                <button class="title switch-buttons" id="btn2">Procedure</button>
+            </div>
+        </div>
+
+        <div class="ingredients-procedure">
+            <div id="mobile-ingredients" class="ingredients-list">
+                <div class="list">
+                    <!--foreach (var ingredient in Model.Recipe.Ingredients){
+                        <div>ingredient.Name</div>
+                        <div>ingredient.Quantity ingredient.Unit</div>
+                    } -->
+                </div>
+            </div>
+            <div id="mobile-procedure" class="procedure">
+                <ul class="procedure-instractions">
+                    <!--
+                        foreach(var step in Model.Recipe.Procedure)
+                        <p>Step 1</p>
+                        <p>step</p>
+                    -->
+                </ul>
+            </div>
+        </div>
+        <button type="submit" class="submit-btn">Done</button>
+    </form>
+</div>
+
+<script>
+
+    function openFilePicker() {
+        document.getElementById("photoUpload").click();
+    }
+
+    function handleFileUpload(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const currentPhoto = document.getElementById("currentPhoto");
+            currentPhoto.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+
+    let isActive = false;
+
+    function toggleButton() {
+        const toggleButton = document.querySelector('.toggle-button');
+        const toggleCircle = document.querySelector('.toggle-circle');
+
+        isActive = !isActive;
+
+        if (isActive) {
+            toggleButton.classList.add('active');
+            toggleCircle.style.transform = 'translateX(24px)';
+        } else {
+            toggleButton.classList.remove('active');
+            toggleCircle.style.transform = 'translateX(3px)';
+        }
+    }
+
+</script>
+
