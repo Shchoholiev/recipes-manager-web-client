@@ -37,7 +37,7 @@ form {
 h2 {
     margin: 20px auto;
     font-size: 28px;
-    text-align:center;
+    text-align: center;
 }
 
 label {
@@ -46,7 +46,7 @@ label {
     font-weight: bold;
 }
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email] {
     width: 100%;
     padding: 15px 20px;
     margin: 8px 0;
@@ -78,6 +78,7 @@ hr {
     background-color: #cccccc;
     margin: 20px auto;
 }
+
 .sign-in-with-google {
     color: #cccccc;
     font-size: 12px;
@@ -95,4 +96,3 @@ hr {
         color: #4CAF50;
         text-decoration: none;
     }
-

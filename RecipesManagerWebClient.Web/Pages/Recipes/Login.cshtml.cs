@@ -10,15 +10,34 @@ namespace RecipesManagerWebClient.Web.Pages
     {
         [BindProperty]
         public LoginInputModel Login { get; set; }
-        public void OnGet()
+
+        private readonly AuthenticationService _authenticationService;
+
+        public LoginModel(AuthenticationService authenticationService)
         {
+            this._authenticationService = authenticationService;
         }
 
-        public IActionResult OnPost(AuthenticationService authenticationService)
+        public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
-                authenticationService
+                if (Login.IsEmailOrPhoneProvided)
+                {
+                    try
+                    {
+                        await _authenticationService.LoginAsync(Login);
+                        return RedirectToPage("/recipes/search");
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ErrorMessage"] = "Login failed. Please try again.";
+                    }
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Please provide an email or phone number.";
+                }
             }
 
             return Page();

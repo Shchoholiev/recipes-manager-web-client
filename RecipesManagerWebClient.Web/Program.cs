@@ -24,7 +24,7 @@ app.UseRouting();
 
 // app.UseAuthentication();
 // app.UseAuthorization();
-app.ConfogureGlobalUserMiddleware();
+app.ConfigureGlobalUserMiddleware();
 
 app.MapRazorPages();
 
