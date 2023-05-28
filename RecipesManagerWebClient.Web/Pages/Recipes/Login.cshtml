@@ -1,0 +1,16 @@
+﻿@page "/login"
+@model RecipesManagerWebClient.Web.Models.Input.LoginInputModel
+
+<div class="container">
+    <form method="post">
+       
+        <h2>Welcome back!</h2>
+        <label for="email"><b>Email</b></label>
+        <input type="email" asp-for="Email" placeholder="Enter email" name="email">
+        <label for="phone"><b>Phone</b></label>
+        <input type="text" asp-for="Phone" placeholder="Enter phone number" name="phone">
+        <label for="password"><b>Password</b></label>
+        <input type="password" asp-for="Password" placeholder="Enter password" name="password" required>
+        <button type="submit">Sign in</button>
+      </form>
+</div>
