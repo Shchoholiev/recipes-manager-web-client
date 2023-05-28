@@ -10,6 +10,8 @@ public class Recipe
 
     // public List<IngredientDto>? Ingredients { get; set; }
 
+    public string? Text { get; set; }
+
     public string? IngredientsText { get; set; }
 
     public List<Category> Categories { get; set; }
