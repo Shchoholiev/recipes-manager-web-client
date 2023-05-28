@@ -1,0 +1,112 @@
+﻿@page "/login"
+@model RecipesManagerWebClient.Web.Pages.LoginModel
+<style>
+    .container {
+        margin: auto;
+        width: 150px;
+        padding: 20px;
+        height: 200px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 5%;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        top: 40%;
+    }
+
+    h2 {
+        margin: 10px auto;
+        font-size: 24px;
+        text-align: center;
+    }
+
+    label {
+        margin-top: 10px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    input[type=text],
+    input[type=password],
+    input[type=email] {
+        width: 100%;
+        padding: 10px 15px;
+        margin: 5px 0;
+        box-sizing: border-box;
+        border: 2px solid var(--light-grey);
+        border-radius: 5px;
+    }
+
+    button[type=submit] {
+        width: 100%;
+        background-color: var(--green);
+        color: white;
+        padding: 10px 15px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+        button[type=submit]:hover {
+            background-color: #3e8e41;
+        }
+
+    hr {
+        width: 200px;
+        border: 0;
+        height: 1px;
+        background-color: #cccccc;
+        margin: 10px auto;
+    }
+
+    p {
+        color: crimson;
+        font-size: 12px;
+    }
+
+    .sign-in-with-google {
+        color: #cccccc;
+        font-size: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .google-sign-in {
+        display: flex;
+        justify-content: center;
+    }
+
+        .google-sign-in a {
+            font-size: 12px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+</style>
+<div class="container">
+    <form method="post">
+        <h2>Welcome back!</h2>
+        <div>
+            <label for="email"><b>Email</b></label>
+            <input class="input-field" type="email" asp-for="Login.Email" placeholder="Enter email" name="email">
+        </div>
+        <div>
+            <label for="phone"><b>Phone</b></label>
+            <input class="input-field" type="text" asp-for="Login.Phone" placeholder="Enter phone number" name="phone">
+        </div>
+        <div>
+            <label for="password"><b>Password</b></label>
+            <input class="input-field" type="password" asp-for="Login.Password" placeholder="Enter password" name="password" required>
+        </div>
+        <button type="submit">Sign in</button>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div><p>@TempData["ErrorMessage"]</p></div>
+        }
+    </form>
+</div>
