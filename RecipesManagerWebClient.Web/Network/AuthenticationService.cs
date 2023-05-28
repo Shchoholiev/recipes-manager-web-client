@@ -1,8 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Authentication;
 using System.Security.Claims;
 using GraphQL;
 using GraphQL.Client.Http;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RecipesManagerWebClient.Web.Models.Identity;
 using RecipesManagerWebClient.Web.Models.Input;
@@ -26,11 +26,16 @@ public class AuthenticationService
     public async Task<string> GetAuthTokenAsync()
     {
         var jwtToken = _httpContext.Request.Cookies["accessToken"];
+        var refreshToken = _httpContext.Request.Cookies["refreshToken"];
 
-        if (string.IsNullOrEmpty(jwtToken)) {
+        if (string.IsNullOrEmpty(jwtToken) && !string.IsNullOrEmpty(refreshToken)) {
+            throw new AuthenticationException("User is not Authenticated");
+        } 
+        else if (string.IsNullOrEmpty(jwtToken) && string.IsNullOrEmpty(refreshToken)) 
+        {
             jwtToken = await AccessWebGuest();
-        }
-        if (IsJwtTokenExpired(jwtToken))
+        } 
+        else if (IsJwtTokenExpired(jwtToken))
         {
             try
             {
@@ -38,7 +43,7 @@ public class AuthenticationService
             }
             catch (Exception ex)
             {
-                new RedirectToPageResult("/login");
+                throw new AuthenticationException("User is not Authenticated");
             }
         }
 
@@ -177,8 +182,6 @@ public class AuthenticationService
             var response = await _graphQLClient.SendMutationAsync<dynamic>(request);
             var jsonResponse = JsonConvert.SerializeObject(response.Data.refreshUserToken);
             var tokens = JsonConvert.DeserializeObject<TokensModel>(jsonResponse);
-            _httpContext.Response.Cookies.Delete("accessToken");
-            _httpContext.Response.Cookies.Delete("refreshToken");
             _httpContext.Response.Cookies.Append("accessToken", tokens.AccessToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
             _httpContext.Response.Cookies.Append("refreshToken", tokens.RefreshToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
 

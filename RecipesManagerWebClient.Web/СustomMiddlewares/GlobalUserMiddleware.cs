@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
-using RecipesManagerWebClient.Web.Models.GlobalInstances;
+﻿using RecipesManagerWebClient.Web.Models.GlobalInstances;
 using RecipesManagerWebClient.Web.Network;
-using System.Security.Claims;
+using System.Security.Authentication;
 
-namespace RecipesManagerWebClient.Web.СustomMiddlewares;
+namespace RecipesManagerWebClient.Web.CustomMiddlewares;
 
 public class GlobalUserMiddleware
 {
@@ -14,17 +13,25 @@ public class GlobalUserMiddleware
         this._next = next;
     }
 
-    public async Task InvokeAsync(HttpContext httpContext, AuthenticationService authenticationService)
+    public async Task InvokeAsync(HttpContext httpContext, AuthenticationService authenticationService, ApiClient apiClient)
     {
-        var accessToken = await authenticationService.GetAuthTokenAsync();
-
-        if (!string.IsNullOrEmpty(accessToken))
+        try
         {
-            GlobalUser.Roles = authenticationService.GetRolesFromJwtToken(accessToken);
-            GlobalUser.Id = authenticationService.GetIdFromJwtToken(accessToken);
-            GlobalUser.Email = authenticationService.GetEmailFromJwtToken(accessToken);
-            GlobalUser.Phone = authenticationService.GetPhoneFromJwtToken(accessToken);
-            GlobalUser.Name = authenticationService.GetNameFromJwtToken(accessToken);
+            var accessToken = await authenticationService.GetAuthTokenAsync();
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                apiClient.JwtToken = accessToken;
+                GlobalUser.Roles = authenticationService.GetRolesFromJwtToken(accessToken);
+                GlobalUser.Id = authenticationService.GetIdFromJwtToken(accessToken);
+                GlobalUser.Email = authenticationService.GetEmailFromJwtToken(accessToken);
+                GlobalUser.Phone = authenticationService.GetPhoneFromJwtToken(accessToken);
+                GlobalUser.Name = authenticationService.GetNameFromJwtToken(accessToken);
+            }
+        }
+        catch (AuthenticationException ex)
+        {
+            httpContext.Response.Cookies.Delete("accessToken");
+            httpContext.Response.Redirect("/login");
         }
 
         await _next(httpContext);
