@@ -106,6 +106,12 @@
                 menuItem.classList.add('active');
             }
         });
+
+        const goToProfile = document.querySelector(".avatar");
+        goToProfile.addEventListener('click', () => {
+            window.location.href = "/user";
+        });
+
     </script>
     @await RenderSectionAsync("Scripts", required: false)
     

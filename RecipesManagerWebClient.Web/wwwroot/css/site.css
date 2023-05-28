@@ -266,6 +266,7 @@ header {
     }
 
 .avatar {
+    cursor: pointer;
     width: 75px;
     height: 75px;
     background-image: url('/assets/avatar.svg');

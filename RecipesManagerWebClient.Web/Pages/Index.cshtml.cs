@@ -24,6 +24,6 @@ public class IndexModel : PageModel
     {
         var response = await _apiClient.PostFormAsync<Recipe>("recipes", form);
 
-        return RedirectToPage("/Privacy");
+        return RedirectToPage("/user");
     }
 }

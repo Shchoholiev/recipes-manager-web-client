@@ -53,6 +53,7 @@
         grid-template-columns: 0.3fr repeat(2, 0.2fr) 0.3fr;
         width: 90%;
         margin: 0 auto;
+        text-align: center;
     }
 
     @media screen and (max-width: 425px) {
@@ -115,7 +116,7 @@
 
     @media screen and (max-width: 768px) {
         justify-self: center;
-        width: 70%;
+        width: 100%;
     }
 
     @media screen and (max-width: 425px) {
@@ -127,10 +128,20 @@
         cursor: pointer;
         opacity: 0.9;
     }
+.author-info form {
+    justify-self: start;
 
+    @media screen and (max-width: 768px) {
+        justify-self: center;
+        width: 100%;
+
+    }
+}
 .follow {
     @media screen and (max-width: 768px) {
         grid-area: follow;
+
+        
     }
 }
 
@@ -372,6 +383,11 @@
         font-size: 16px;
         top: 83%;
         left: 64%
+    }
+
+    @media screen and (max-width: 750px) {
+
+        left: 66%;
     }
 
     @media screen and (max-width: 560px) {
