@@ -67,6 +67,7 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
                     pageNumber
                     pageSize
                     items {
+                      id
                       name
                     }
                   }
@@ -77,8 +78,8 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
                     recipeSearchType = "PUBLIC",
                     pageNumber,
                     pageSize = 12,
-                    categoriesIds = new string[0],
-                    searchString = search.FirstOrDefault() ?? string.Empty,
+                    categoriesIds = search,
+                    searchString = string.Empty,
                     authorId = "",
                     categoriesPageNumber2 = 1,
                     categoriesPageSize2 = 10

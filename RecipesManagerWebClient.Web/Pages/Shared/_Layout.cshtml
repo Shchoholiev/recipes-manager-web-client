@@ -43,15 +43,32 @@
             </button>
         </div>
     </header>
-            @RenderBody()
-        <div class="filter-bar">
-            <div class="filter-area">
-                <p class="filter-title">Filter Search</p>
-                <div class="filter-category">
+    @RenderBody()
+    <div class="filter-bar">
+        <div class="filter-area">
+            <p class="filter-title">Filter Search</p>
+            <div class="filter-category">
+                @{
+                    var categoriesProperty = Model.GetType().GetProperty("Categories");
+                    var categories = categoriesProperty != null ? categoriesProperty.GetValue(Model) as IEnumerable<dynamic> : null;
+
+                    var uniqueCategories = categories?
+                    .Distinct()
+                    .ToList();
+                }
+
+                @if (uniqueCategories != null && uniqueCategories.Any())
+                {
+                    @foreach (var category in uniqueCategories)
+                    {
+                        <button value="@category.Id" class="filter-btn">@category.Name</button>
+                    }
+                }
             </div>
-                <button class="apply-filter">Filter</button>
-            </div>
+            <button class="apply-filter">Filter</button>
+
         </div>
+    </div>
 
 
     <footer>
