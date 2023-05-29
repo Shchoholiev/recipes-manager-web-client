@@ -26,7 +26,6 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
         }
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            var recipe = Request.Query["recipe"];
             var type = Request.Query["type"];
         
 
@@ -77,7 +76,7 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
                         }",
                 Variables = new
                 {
-                    recipeId = "646d7b20231f2f9c344c8ea6",
+                    recipeId = id,
                     pageNumber = 1,
                     pageSize = 10,
                 }
