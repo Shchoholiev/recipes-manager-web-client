@@ -1,0 +1,65 @@
+﻿@page "/shoppinglists"
+@model RecipesManagerWebClient.Web.Pages.Recipes.ShoppingListsModel
+
+<div class="container">
+    <div class="shopping-lists">
+        @foreach (var shoppinglist in Model.ShoppingLists)
+        {
+            @foreach (var recipe in shoppinglist.Recipes)
+            {
+                var toggleItemsId = $"toggle-items-{shoppinglist.Id}-{recipe.Id}";
+                var menuArrowClass = $"menu-arrow-{shoppinglist.Id}-{recipe.Id}";
+
+                <div class="toggle-menu">
+                    <a href="#" class="list-title">@recipe.Name</a>
+                    <div class="igredients-wrapper">
+                        @if (!string.IsNullOrEmpty(recipe.IngredientsText))
+                        {
+                            var ingredients = recipe.IngredientsText.Split('.');
+                            var ingredientCount = ingredients.Length; 
+                            <ul class="toggle-items" id="@toggleItemsId">
+                                @for (var i = 0; i < ingredientCount - 1; i++) 
+                                {
+                                    var ingredient = ingredients[i];
+                                    <li>
+                                        <div class="toggle-item">
+                                            <div >
+                                                <input type="checkbox" id="Checkbox" class="custom-checkbox">
+                                                <label for="toggle-item-lable">@ingredient.Trim()</label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                    <a href="javascript:void(0);" class="icon" onclick="ToggleMenuFunction('@toggleItemsId', '@menuArrowClass')">
+                        <i class="fa fa-chevron-down menu-arrow @menuArrowClass"></i>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+    <div class="add-button">
+        <button class="create" onclick="redirectToAddShoppingList()">Add</button>
+    </div>
+
+</div>
+
+<script>
+    function ToggleMenuFunction(toggleItemsId, menuArrowClass) {
+        var x = document.getElementById(toggleItemsId);
+        var arrowIcon = document.querySelector('.' + menuArrowClass);
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            arrowIcon.classList.remove('rotated');
+        } else {
+            x.style.display = "block";
+            arrowIcon.classList.add('rotated');
+        }
+    }
+    function redirectToAddShoppingList() {
+        // Redirect to the add shopping list page
+        window.location.href = "/addshoppinglist";
+    }
+</script>
