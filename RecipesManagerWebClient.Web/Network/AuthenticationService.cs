@@ -5,6 +5,7 @@ using GraphQL;
 using GraphQL.Client.Http;
 using Newtonsoft.Json;
 using RecipesManagerWebClient.Web.Models.Identity;
+using RecipesManagerWebClient.Web.Models.Input;
 
 namespace RecipesManagerWebClient.Web.Network;
 
@@ -47,6 +48,27 @@ public class AuthenticationService
         }
 
         return jwtToken;
+    }
+
+    public async Task LoginAsync(LoginInputModel model)
+    {
+        var request = new GraphQLRequest
+        {
+            Query = @"
+                    mutation Login($login: LoginModelInput!) {
+                        login(login: $login) {
+                            accessToken
+                            refreshToken
+                        }
+                    }
+            ",
+            Variables = new { login = new { email = model.Email, phone = model.Phone, password = model.Password } }
+        };
+        var response = await _graphQLClient.SendMutationAsync<dynamic>(request);
+        var jsonResponse = JsonConvert.SerializeObject(response.Data.login);
+        var tokens = JsonConvert.DeserializeObject<TokensModel>(jsonResponse);
+        _httpContext.Response.Cookies.Append("accessToken", tokens.AccessToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
+        _httpContext.Response.Cookies.Append("refreshToken", tokens.RefreshToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
     }
 
     public bool IsJwtTokenExpired(string jwtToken)

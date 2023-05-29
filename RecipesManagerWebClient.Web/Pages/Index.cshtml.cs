@@ -20,6 +20,11 @@ public class IndexModel : PageModel
         _apiClient = apiClient;
     }
 
+    public async Task OnGetAsync()
+    {
+ 
+    }
+
     public async Task<IActionResult> OnPostAsync(IFormCollection form)
     {
         var response = await _apiClient.PostFormAsync<Recipe>("recipes", form);

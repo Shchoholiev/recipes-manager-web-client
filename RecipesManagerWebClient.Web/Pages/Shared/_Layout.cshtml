@@ -48,23 +48,6 @@
             <div class="filter-area">
                 <p class="filter-title">Filter Search</p>
                 <div class="filter-category">
-                @{
-                    var categoriesProperty = Model.GetType().GetProperty("Categories");
-                    var categories = categoriesProperty != null ? categoriesProperty.GetValue(Model) as IEnumerable<dynamic> : null;
-
-                    var uniqueCategories = categories?
-                    .Select(c => c.Name)
-                    .Distinct()
-                    .ToList();
-                }
-
-                @if (uniqueCategories != null && uniqueCategories.Any())
-                {
-                    @foreach (var category in uniqueCategories)
-                    {
-                        <button class="filter-btn">@category</button>
-                    }
-                }
             </div>
                 <button class="apply-filter">Filter</button>
             </div>

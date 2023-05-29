@@ -57,6 +57,8 @@ searchInput.addEventListener("keydown", function (event) {
 
 applyFilter.addEventListener("click", function () {
     const activeButtons = document.querySelectorAll(".filter-btn.filter-active");
-    const searchTerm = Array.from(activeButtons).map(button => encodeURIComponent(button.innerHTML)).join("&");
-    window.location.href = "/searchresult?search=" + searchTerm;
+    const searchTerms = Array.from(activeButtons).map(button => "search=" + encodeURIComponent(button.innerHTML));
+    const queryString = searchTerms.join("&");
+    window.location.href = "/searchresult?" + queryString;
 });
+
