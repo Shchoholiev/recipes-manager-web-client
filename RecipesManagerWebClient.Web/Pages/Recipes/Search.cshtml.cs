@@ -9,9 +9,12 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
     {
         public List<Recipe> Recipes { get; set; }
         public List<Category> Categories { get; set; }
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
 
-        private readonly ApiClient _apiClient; 
- 
+
+		private readonly ApiClient _apiClient;
+
         public SearchModel(ApiClient apiClient) 
         { 
             _apiClient = apiClient; 
@@ -21,12 +24,23 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
         {
             var search = Request.Query["search"];
             var type = Request.Query["type"];
-            var request = new GraphQLRequest
+            var page = Request.Query["page"];
+			var pageNumber = 1; 
+
+			if (!string.IsNullOrEmpty(page) && int.TryParse(page, out int parsedPageNumber))
+			{
+				pageNumber = parsedPageNumber;
+			}
+			var request = new GraphQLRequest
             {
                 Query = @"query SearchRecipes($recipeSearchType: RecipesSearchTypes!, $categoriesIds: [String!], $pageNumber: Int!, $pageSize: Int!, $searchString: String!, $authorId: String!, $categoriesPageNumber2: Int!, $categoriesPageSize2: Int!) {
                   searchRecipes(recipeSearchType: $recipeSearchType, categoriesIds: $categoriesIds, pageNumber: $pageNumber, pageSize: $pageSize, searchString: $searchString, authorId: $authorId) {
                     hasNextPage
                     hasPreviousPage
+                    pageNumber
+                    pageSize
+                    totalItems
+                    totalPages
                     items {
                       categories {
                         id
@@ -59,8 +73,8 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
                 Variables = new
                 {
                     recipeSearchType = type.FirstOrDefault() ?? "PUBLIC",
-                    pageNumber = 1,
-                    pageSize = 10,
+                    pageNumber,
+                    pageSize = 12,
                     categoriesIds = new string[0],
                     searchString = search.FirstOrDefault() ?? string.Empty,
                     authorId = "",
@@ -76,8 +90,11 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
             var jsonCategoriesResponse = JsonConvert.SerializeObject(response.Data.categories.items);
             this.Categories = JsonConvert.DeserializeObject<List<Category>>(jsonCategoriesResponse);
 
-
+            TotalPages = response.Data.searchRecipes.totalPages;
+            CurrentPage = pageNumber;
         }
 
     }
+
 }
+
