@@ -9,7 +9,7 @@
 		<div class="profile-picture"></div>
 		<p class="name">@Model.User.Name</p>
 		<button class="edit">Edit</button>
-		<button class="logout">Log Out</button>
+		<button class="logout" onclick="window.location.href = '/login'">Log Out</button>
 		<p class="num-of-recipes info">
 			<span class="number">@recipeCount</span> recipes
 		</p>
@@ -34,7 +34,7 @@
                         imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
                     }
 
-                    <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+                    <a href="/recipeedit/@recipe.Id" class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
                         <div class="dish-title">@recipe.Name</div>
                         <div class="dish-author">You</div>
                         <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
@@ -47,7 +47,7 @@
                         {
                             <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/private.svg" /></div>
                         }
-                    </div>
+                    </a>
                 }
             }
 

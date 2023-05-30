@@ -1,3 +1,5 @@
+using RecipesManagerWebClient.Web.Models.Dtos;
+
 namespace RecipesManagerWebClient.Web.Models;
 
 public class Recipe
