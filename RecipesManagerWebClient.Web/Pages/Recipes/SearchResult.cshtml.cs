@@ -27,6 +27,7 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
         {
             var search = Request.Query["search"];
             var page = Request.Query["pageSearch"];
+            var categories = Request.Query["categories"];
             var pageNumber = 1;
 
             if (!string.IsNullOrEmpty(page) && int.TryParse(page, out int parsedPageNumber))
@@ -78,8 +79,8 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
                     recipeSearchType = "PUBLIC",
                     pageNumber,
                     pageSize = 12,
-                    categoriesIds = search,
-                    searchString = string.Empty,
+                    categoriesIds = categories,
+                    searchString = search.FirstOrDefault() ?? string.Empty,
                     authorId = "",
                     categoriesPageNumber2 = 1,
                     categoriesPageSize2 = 10
