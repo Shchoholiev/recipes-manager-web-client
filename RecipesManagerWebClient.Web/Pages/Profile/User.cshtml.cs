@@ -32,7 +32,6 @@ namespace RecipesManagerWebClient.Web.Pages.Profile
 
         private async Task LoadDataAsync(string authorId)
         {
-            var search = Request.Query["search"];
             var request = new GraphQLRequest
             {
                 Query = @"query SearchRecipes($recipeSearchType: RecipesSearchTypes!, $categoriesIds: [String!], $pageNumber: Int!, $pageSize: Int!, $searchString: String!, $authorId: String!, $categoriesPageNumber2: Int!, $categoriesPageSize2: Int!) {
@@ -73,7 +72,7 @@ namespace RecipesManagerWebClient.Web.Pages.Profile
                     recipeSearchType = "PERSONAL",
                     pageNumber = 1,
                     pageSize = 12,
-                    searchString = search.FirstOrDefault() ?? string.Empty,
+                    searchString = string.Empty,
                     authorId,
                     categoriesPageNumber2 = 1,
                     categoriesPageSize2 = 10
