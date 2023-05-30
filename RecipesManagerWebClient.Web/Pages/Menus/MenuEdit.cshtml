@@ -1,0 +1,44 @@
+﻿@page "/menuedit"
+@model RecipesManagerWebClient.Web.Pages.Menus.MenuEditModel
+<div class="container">
+    <form b-sgc73eisch class="profile-info" method="post" enctype="multipart/form-data">
+        <div class="input-wrapper">
+            <div>Title: </div>
+            <input type="text" value="@Model.Menu.Name" name="Name"/>
+        </div>
+        <p>Notes about the menu</p>
+        <textarea id="about" cols="30" rows="10" name="Notes">@Model.Menu.Notes</textarea>
+        <button class="add-recipe" id="add-more-recipes">Add more recipes</button>
+        <div class="dishes">
+            @foreach (var recipe in Model.Recipes)
+            {
+                var imageUrl = "/assets/no-image.svg";
+                if (recipe.Thumbnail != null)
+                {
+                    imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
+                }
+
+                <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+                    <div class="dish-title">@recipe.Name</div>
+                    <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
+                    <div class="dish-time">@recipe.MinutesToCook min</div>
+                    @if (recipe.IsSaved)
+                    {
+                        <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
+                    }
+                    else
+                    {
+                        <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
+                    }
+                </div>
+            }
+        </div>
+        <button type="submit">Done</button>
+    </form>
+</div>
+<script>
+    document.getElementById("add-more-recipes").addEventListener("click", function (event) {
+        event.preventDefault();
+        window.location.href = "/search";
+    });
+</script>
