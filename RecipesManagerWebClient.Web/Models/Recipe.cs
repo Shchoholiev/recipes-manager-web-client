@@ -8,7 +8,7 @@ public class Recipe
 
     public Image? Thumbnail { get; set; }
 
-    // public List<IngredientDto>? Ingredients { get; set; }
+    public List<Ingredient>? Ingredients { get; set; }
 
     public string? Text { get; set; }
 

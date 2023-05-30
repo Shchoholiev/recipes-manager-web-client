@@ -17,7 +17,7 @@
                 imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
             }
 
-            <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+            <a class="dish-item" href="/recipe/@recipe.Id" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
                 <div class="dish-title">@recipe.Name</div>
                 <div class="dish-author">@recipe.CreatedBy.Name</div>
                 <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
@@ -30,7 +30,7 @@
                 {
                     <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
                 }
-            </div>
+            </a>
         }
 
     </div>

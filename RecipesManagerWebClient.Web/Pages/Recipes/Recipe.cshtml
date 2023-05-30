@@ -113,7 +113,20 @@
     <div class="btn">
         <div class="ingredients-overview">
             <div class="title desktop-ingr-btn">Ingredients</div>
-            <div class="ingredients-number">@Model.Recipe.IngredientsText.Split('.').Length Items</div>
+            @if (Model.Recipe.Ingredients != null && Model.Recipe.Ingredients.Count > 0)
+            {
+                <div class="ingredients-number">@Model.Recipe.Ingredients.Count Items</div>
+            }
+            else
+            {
+                <div class="ingredients-number">
+                    @{
+                        int ingredientCount = Model.Recipe.IngredientsText.Split('.').Length - 1;
+                    }
+                    @ingredientCount Items
+                </div>
+            }
+            
 
             <button class="title switch-buttons" id="btn1">Ingredients</button>
         </div>
@@ -124,44 +137,53 @@
     </div>
 
     <div class="ingredients-procedure">
+
         <div id="mobile-ingredients" class="ingredients-list">
             <div class="list">
-                <!--foreach (var ingredient in Model.Recipe.Ingredients){
-                    <div>ingredient.Name</div>
-                    <div>ingredient.Quantity ingredient.Unit</div>
-                } -->
-                @if (!string.IsNullOrEmpty(Model.Recipe.IngredientsText))
+                @if (Model.Recipe.Ingredients != null && Model.Recipe.Ingredients.Count > 0)
                 {
-                    var ingredients = Model.Recipe.IngredientsText.Split('.');
-
-                    <div>
-                        @foreach (var ingredient in ingredients)
-                        {
-                            <div class="items">@ingredient.Trim()</div>
-                        }
-                    </div>
+                    foreach (var ingredient in Model.Recipe.Ingredients)
+                    {
+                        <div class="array-items">
+                            <div >@ingredient.Name</div>
+                            <div >@ingredient.Amount @ingredient.Units</div>
+                        </div>
+                    }
+                }
+                else if (!string.IsNullOrEmpty(Model.Recipe.IngredientsText))
+                {
+                    <div class="items ingredients-text">@Model.Recipe.IngredientsText</div>
+                }
+                else
+                {
+                    <div class="items">No ingredients available.</div>
                 }
             </div>
         </div>
+
         <div id="mobile-procedure" class="procedure">
             <ul class="procedure-instractions">
-                
                 @if (!string.IsNullOrEmpty(Model.Recipe.Text))
                 {
                     var steps = Model.Recipe.Text.Split('.');
 
-                    for(int i = 0; i < steps.Length; i++)
+                    for (int i = 0; i < steps.Length; i++)
                     {
                         var stepNumber = i + 1;
                         var stepDescription = steps[i].Trim();
-                        <li class="list-item">
-                            <p class="stepnum">Step @stepNumber</p>
-                            <p>@stepDescription</p>
-                        </li>
+
+                        if (!string.IsNullOrEmpty(stepDescription))
+                        {
+                            <li class="list-item">
+                                <p class="stepnum">Step @stepNumber</p>
+                                <p>@stepDescription</p>
+                            </li>
+                        }
                     }
                 }
             </ul>
         </div>
+
     </div>
 </div>
 <script>

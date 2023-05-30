@@ -276,15 +276,22 @@
     padding-left: 10px;
 }
 .dish-saved {
-    position: absolute;
+    /*position: absolute;
     top: 0;
     right: 0;
     left: 0;
     width: 30px;
     width: 100%;
     padding: 10px;
-    margin-left: 10px;
+    margin-left: 10px;*/
     cursor: pointer;
+    position: absolute;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    top: 0;
+    right: 0;
+    padding: 7px;
 }
 
 .desktop-ingr-btn,
@@ -417,6 +424,21 @@
         width: 100%;
     }
 }
+
+.array-items {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--light-grey);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0.5rem;
+    color: #333333;
+}
+
+.ingredients-text{
+    text-align:justify;
+}
+
 .list-item {
     list-style: none;
 }
