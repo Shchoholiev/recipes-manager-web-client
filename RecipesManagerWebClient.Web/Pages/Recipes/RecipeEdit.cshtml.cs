@@ -14,8 +14,6 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
         public Recipe Recipe { get; set; }
         public List<Category> Categories { get; set; }
 
-
-
         public RecipeEditModel(ApiClient apiClient)
         {
             _apiClient = apiClient;
@@ -24,8 +22,6 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
         {
             var recipe = Request.Query["recipe"];
             var type = Request.Query["type"];
-
-
 
             var request = new GraphQLRequest
             {
@@ -68,7 +64,7 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
                         }",
                 Variables = new
                 {
-                    recipeId = "646d7b20231f2f9c344c8ea6",
+                    recipeId = id,
                     pageNumber = 1,
                     pageSize = 10,
                 }

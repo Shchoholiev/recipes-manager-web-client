@@ -1,4 +1,4 @@
-﻿@page "/recipeedit"
+﻿@page "/recipeedit/{id}"
 @model RecipesManagerWebClient.Web.Pages.Recipes.RecipeEditModel
 @{
 }
@@ -8,7 +8,7 @@
             <img src="assets/come-back-arrow.svg" alt="come-back-arrow">
         </div>
     </div>
-    <form b-0kiidxu7e7 action="/submit" method="post" class="edit-recipe">
+    <form method="post" class="edit-recipe">
         <div class="dish-wrapper">
             <div class="dish">
                 @if (Model.Recipe.Thumbnail != null)
@@ -57,7 +57,7 @@
             </div>
 
             <div class="form-group">
-                <label for="dishMakePrivat">Make Privat: </label>
+                <label for="dishMakePrivat">Make Public: </label>
                 <div class="toggle-button" onclick="toggleButton()">
                     <div class="toggle-circle"></div>
                 </div>
@@ -81,23 +81,17 @@
                         <div class="ingredients-right">
                             <div class="ingredients-units">@ingredient.Amount @ingredient.Units</div>
                             <button class="delete-btn">
-                                <img src="" alt="delete">
+                                <img src="/assets/trash.svg" alt="delete">
                             </button>    
                         </div>
                     </div>
                 }
             </div>
             <div id="mobile-procedure" class="procedure">
-                <ul class="procedure-instractions">
-                    <!--
-                        foreach(var step in Model.Recipe.Procedure)
-                        <p>Step 1</p>
-                        <p>step</p>
-                    -->
-                </ul>
+                <textarea style="width: 100%; height: 100%;">@Model.Recipe.Text</textarea>
             </div>
         </div>
-        <button type="submit" class="submit-btn">Done</button>
+        <button type="submit" class="submit-btn" style="margin-bottom: 30px;">Done</button>
     </form>
 </div>
 
