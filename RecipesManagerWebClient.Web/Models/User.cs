@@ -14,6 +14,6 @@
 
         public Guid? WebId { get; set; }
 
-       // public List<RoleDto> Roles { get; set; }
+       public List<Role> Roles { get; set; }
     }
 }

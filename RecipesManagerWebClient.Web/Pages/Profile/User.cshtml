@@ -1,0 +1,72 @@
+﻿@page "/user"
+@model RecipesManagerWebClient.Web.Pages.Profile.UserModel
+
+@{
+    int recipeCount = Model.Recipes.Count(r => r.CreatedBy.Id == Model.User.Id);
+}
+<div class="container">
+	<div class="user-info">
+		<div class="profile-picture"></div>
+		<p class="name">@Model.User.Name</p>
+		<button class="edit">Edit</button>
+		<button class="logout">Log Out</button>
+		<p class="num-of-recipes info">
+			<span class="number">@recipeCount</span> recipes
+		</p>
+		<p class="num-of-followers info">
+			<span class="number">5</span> followers
+		</p>
+		<p class="bio">
+            Hi! I'm @Model.User.Name and I'm passionate about cooking and exploring new flavors. Join me on my culinary journey as I share my favorite recipes and cooking tips. Let's create delicious meals together!
+		</p>
+	</div>
+    @if(recipeCount > 0)
+    {    
+        <div class="dishes">
+            
+            @foreach (var recipe in Model.Recipes)
+            {
+                if (recipe.CreatedBy.Id == Model.User.Id)
+                {
+                    var imageUrl = "/assets/no-image.svg";
+                    if (recipe.Thumbnail != null)
+                    {                       
+                        imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
+                    }
+
+                    <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+                        <div class="dish-title">@recipe.Name</div>
+                        <div class="dish-author">You</div>
+                        <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
+                        <div class="dish-time">@recipe.MinutesToCook min</div>
+                        @if (recipe.IsPublic)
+                        {
+                            <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/public.svg" /></div>
+                        }
+                        else
+                        {
+                            <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/private.svg" /></div>
+                        }
+                    </div>
+                }
+            }
+
+        </div>
+    }
+    else
+    {
+
+        <div class="dishes">
+			<p class="no-recipes-text">You have no recipes yet.  <a href="/createrecipe"> Create one!</a></p>
+        </div>
+        
+    }
+    
+</div>
+<script>
+    const editButton = document.querySelector(".edit");
+    editButton.addEventListener('click', () => {
+        window.location.href = "/useredit";
+    });
+
+</script>
