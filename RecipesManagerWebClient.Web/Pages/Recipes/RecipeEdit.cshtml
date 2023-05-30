@@ -75,12 +75,17 @@
 
         <div class="ingredients-procedure">
             <div id="mobile-ingredients" class="ingredients-list">
-                <div class="list">
-                    <!--foreach (var ingredient in Model.Recipe.Ingredients){
-                        <div>ingredient.Name</div>
-                        <div>ingredient.Quantity ingredient.Unit</div>
-                    } -->
-                </div>
+                @foreach (var ingredient in Model.Recipe.Ingredients){
+                    <div class="ingredients-items">
+                        <div class="ingredients-name">@ingredient.Name</div>
+                        <div class="ingredients-right">
+                            <div class="ingredients-units">@ingredient.Amount @ingredient.Units</div>
+                            <button class="delete-btn">
+                                <img src="" alt="delete">
+                            </button>    
+                        </div>
+                    </div>
+                }
             </div>
             <div id="mobile-procedure" class="procedure">
                 <ul class="procedure-instractions">

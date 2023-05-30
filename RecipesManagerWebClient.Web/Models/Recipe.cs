@@ -1,3 +1,5 @@
+using RecipesManagerWebClient.Web.Models.Dtos;
+
 namespace RecipesManagerWebClient.Web.Models;
 
 public class Recipe
@@ -8,7 +10,7 @@ public class Recipe
 
     public Image? Thumbnail { get; set; }
 
-    // public List<IngredientDto>? Ingredients { get; set; }
+    public List<IngredientDto>? Ingredients { get; set; }
 
     public string? IngredientsText { get; set; }
 

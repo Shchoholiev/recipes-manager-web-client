@@ -357,8 +357,36 @@ object svg path {
     }
 }
 
+.ingredients-items{
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--light-grey);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0.5rem;
+    
+}
+
+.ingredients-right{
+    display: flex;
+}
+
+.ingredients-units{
+    color: var(--grey);
+    margin-right: 1rem;
+}
+
+.delete-btn{
+    width: 25px;
+    height: 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .list-item {
     list-style: none;
+    padding-right: 3rem;
 }
 
 .items,
