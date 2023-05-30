@@ -1,0 +1,27 @@
+﻿@page "/useredit"
+@model RecipesManagerWebClient.Web.Pages.Profile.UserEditModel
+@{
+}
+<div class="container">
+    <form b-uwh6cyk4u2 class="profile-info" method="post" enctype="multipart/form-data">
+        <div class="input-wrapper">
+            <div>Name: </div>
+            <input type="text" name="Name" value="@Model.User.Name" />
+        </div>
+        <p>About you</p>
+        <textarea id="about" cols="30" rows="10">Hi! I'm @Model.User.Name and I'm passionate about cooking and exploring new flavors. Join me on my culinary journey as I share my favorite recipes and cooking tips. Let's create delicious meals together!</textarea>
+        <div class="input-wrapper">
+            <div>Phone number:</div>
+            <input type="tel" name="Phone" class="phone" value="@Model.User.Phone" />
+        </div>
+        <div class="input-wrapper">
+            <div>Email: </div>
+            <input type="email" name="Email" value="@Model.User.Email" />
+        </div>
+        <div class="input-wrapper">
+            <div>Password: </div>
+            <input type="password" name="Password" class="password" value="" />
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>

@@ -20,15 +20,15 @@ public class IndexModel : PageModel
         _apiClient = apiClient;
     }
 
-    public async Task OnGetAsync()
+    public IActionResult OnGet()
     {
- 
+        return RedirectToPage("/recipes/search");
     }
 
     public async Task<IActionResult> OnPostAsync(IFormCollection form)
     {
         var response = await _apiClient.PostFormAsync<Recipe>("recipes", form);
 
-        return RedirectToPage("/Privacy");
+        return RedirectToPage("/user");
     }
 }

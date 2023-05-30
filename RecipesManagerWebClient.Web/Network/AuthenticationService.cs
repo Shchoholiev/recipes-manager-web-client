@@ -71,6 +71,11 @@ public class AuthenticationService
         _httpContext.Response.Cookies.Append("refreshToken", tokens.RefreshToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
     }
 
+    public void SetTokens(TokensModel tokens) {
+        _httpContext.Response.Cookies.Append("accessToken", tokens.AccessToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
+        _httpContext.Response.Cookies.Append("refreshToken", tokens.RefreshToken, new CookieOptions { Expires = DateTime.UtcNow.AddDays(180) });
+    }
+
     public bool IsJwtTokenExpired(string jwtToken)
     {
         var tokenHandler = new JwtSecurityTokenHandler();

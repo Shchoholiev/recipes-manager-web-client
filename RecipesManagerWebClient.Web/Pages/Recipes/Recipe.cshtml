@@ -1,0 +1,249 @@
+﻿@page "/recipe"
+@model RecipesManagerWebClient.Web.Pages.Recipes.RecipeModel
+@{
+}
+<div class="container">
+    <div class="mobile-navigation">
+        <div class="come-back-arrow">
+            <img src="/assets/come-back-arrow.svg" alt="come-back-arrow">
+        </div>
+        <div class="menu-container">
+            <div class="menu">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="menu-options">
+                <div class="element">
+                    <img src="/assets/share-arrow.svg" alt="share">
+                    <a href="#" class="menu-option">share</a>
+                </div>
+                <div class="element">
+                    <img src="/assets/save-to-menu.svg" alt="share">
+                    <a href="#" class="menu-option">save to a menu</a>
+                </div>
+                <div class="element">
+                    <img src="/assets/pencil.svg" alt="share">
+                    <a href="#" class="menu-option">edit</a>
+                </div>
+                <div class="element">
+                    <img src="/assets/trash-bin.svg" alt="share">
+                    <a href="#" class="menu-option">delete</a>
+                </div>
+                <div class="element">
+                    <img src="/assets/shopping-list.svg" alt="share">
+                    <a href="#" class="menu-option">create shopping list</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dish">
+        @if (Model.Recipe.Thumbnail != null)
+        {
+            var imageUrl = Model.ImageUrl + Model.Recipe.Thumbnail.OriginalPhotoGuid.ToString() + "." + Model.Recipe.Thumbnail.Extension;
+            <div class="dish-picture">
+                <img src="@imageUrl" class="dish-image" alt="" />
+                <div class="calories-time-details">
+                    <div class="calories">
+                        <img b-c3mbu1qqil src="~/assets/calories.svg">
+                        <div class="calories-number">@Model.Recipe.Calories calories</div>
+                    </div>
+                    <div class="time">
+                        <img b-c3mbu1qqil src="~/assets/stopwatch.svg" />
+                        <div class="dish-time">@Model.Recipe.MinutesToCook min</div>
+                    </div>
+                </div>
+                @if (Model.Recipe.IsSaved)
+                {
+                    <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
+                }
+                else
+                {
+                    <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
+                }
+            </div>
+        } 
+        else{
+            <div class="dish-picture">
+                <img src="/assets/no-image.svg" class="dish-image" alt="No Image" />
+                <div class="calories-time-details">
+                    <div class="calories">
+                        <img b-c3mbu1qqil src="~/assets/calories.svg">
+                        <div class="calories-number">@Model.Recipe.Calories calories</div>
+                    </div>
+                    <div class="time">
+                        <img b-c3mbu1qqil src="~/assets/stopwatch.svg" />
+                        <div class="dish-time">@Model.Recipe.MinutesToCook min</div>
+                    </div>
+                    @if (Model.Recipe.IsSaved)
+                    {
+                        <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
+                    }
+                    else
+                    {
+                        <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <div class="dish-details">
+        <div class="author">
+            <div class="profile">
+                <div class="photo">
+                    <img src="/assets/avatar.svg" class="avatar" alt="profile_photo" />
+                </div>
+                <div class="author-description">
+                    <p class="name">@Model.Recipe.CreatedBy.Name</p>
+                    <p class="followers">13 subscribers</p>
+                </div>
+            </div>
+            <div class="follow-btn">
+                <button class="create">Follow</button>
+            </div>
+        </div>
+        <div class="dish-description">
+            <p class="dish-title">@Model.Recipe.Name</p>
+            <p class="dish-category">@Model.Recipe.Categories.FirstOrDefault()?.Name</p>
+            
+        </div>
+           
+    </div>
+
+    <div class="btn">
+        <div class="ingredients-overview">
+            <div class="title desktop-ingr-btn">Ingredients</div>
+            @if (Model.Recipe.Ingredients != null && Model.Recipe.Ingredients.Count > 0)
+            {
+                <div class="ingredients-number">@Model.Recipe.Ingredients.Count Items</div>
+            }
+            else
+            {
+                <div class="ingredients-number">
+                    @{
+                        int ingredientCount = Model.Recipe.IngredientsText.Split('.').Length - 1;
+                    }
+                    @ingredientCount Items
+                </div>
+            }
+            
+
+            <button class="title switch-buttons" id="btn1">Ingredients</button>
+        </div>
+        <div class="procedure-overview">
+            <div class="title desktop-proc-btn">Procedure</div>
+            <button class="title switch-buttons" id="btn2">Procedure</button>
+        </div>
+    </div>
+
+    <div class="ingredients-procedure">
+
+        <div id="mobile-ingredients" class="ingredients-list">
+            <div class="list">
+                @if (Model.Recipe.Ingredients != null && Model.Recipe.Ingredients.Count > 0)
+                {
+                    foreach (var ingredient in Model.Recipe.Ingredients)
+                    {
+                        <div class="array-items">
+                            <div >@ingredient.Name</div>
+                            <div >@ingredient.Amount @ingredient.Units</div>
+                        </div>
+                    }
+                }
+                else if (!string.IsNullOrEmpty(Model.Recipe.IngredientsText))
+                {
+                    <div class="items ingredients-text">@Model.Recipe.IngredientsText</div>
+                }
+                else
+                {
+                    <div class="items">No ingredients available.</div>
+                }
+            </div>
+        </div>
+
+        <div id="mobile-procedure" class="procedure">
+            <ul class="procedure-instractions">
+                @if (!string.IsNullOrEmpty(Model.Recipe.Text))
+                {
+                    var steps = Model.Recipe.Text.Split('.');
+
+                    for (int i = 0; i < steps.Length; i++)
+                    {
+                        var stepNumber = i + 1;
+                        var stepDescription = steps[i].Trim();
+
+                        if (!string.IsNullOrEmpty(stepDescription))
+                        {
+                            <li class="list-item">
+                                <p class="stepnum">Step @stepNumber</p>
+                                <p>@stepDescription</p>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+
+    </div>
+</div>
+<script>
+    const button1 = document.getElementById("btn1");
+    const button2 = document.getElementById("btn2");
+    const content1 = document.getElementById("mobile-ingredients");
+    const content2 = document.getElementById("mobile-procedure");
+
+
+    function disableButton() {
+        button1.style.pointerEvents = "none";
+        button2.style.pointerEvents = "none";
+    }
+
+    function enableButton() {
+        button1.style.pointerEvents = "auto";
+        button2.style.pointerEvents = "auto";
+    }
+
+    function checkScreenWidth() {
+        const screenWidth = window.innerWidth;
+        if (screenWidth > 768) {
+            disableButton();
+        } else {
+            enableButton();
+        }
+    }
+
+    button1.addEventListener("click", function () {
+        content1.style.display = "block";
+        button1.style.height = "35px";
+        button1.style.width = "110px";
+        button1.style.color = "white";
+        button1.style.backgroundColor = "#4e8d5c";
+        button1.style.border = "none";
+        button1.style.borderRadius = "10px";
+        content2.style.display = "none";
+        button2.style.backgroundColor = "white";
+        button2.style.color = "#4e8d5c";
+    });
+
+    button2.addEventListener("click", function () {
+        content1.style.display = "none";
+        button1.style.backgroundColor = "white";
+        button1.style.color = "#4e8d5c";
+        content2.style.display = "block";
+        button2.style.height = "35px";
+        button2.style.width = "110px";
+        button2.style.color = "white";
+        button2.style.backgroundColor = "#4e8d5c";
+        button2.style.border = "none";
+        button2.style.borderRadius = "10px";
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        var menu = document.querySelector(".menu-container");
+
+        menu.addEventListener("click", function () {
+            var menuOptions = document.querySelector(".menu-options");
+            menuOptions.style.display = (menuOptions.style.display === "block") ? "none" : "block";
+        });
+    });
+
+</script>
