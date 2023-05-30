@@ -27,6 +27,7 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
         {
             var search = Request.Query["search"];
             var page = Request.Query["pageSearch"];
+            var categories = Request.Query["categories"].ToString().Split(',');
             var pageNumber = 1;
 
             if (!string.IsNullOrEmpty(page) && int.TryParse(page, out int parsedPageNumber))
@@ -67,6 +68,7 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
                     pageNumber
                     pageSize
                     items {
+                      id
                       name
                     }
                   }
@@ -77,7 +79,7 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
                     recipeSearchType = "PUBLIC",
                     pageNumber,
                     pageSize = 12,
-                    categoriesIds = new string[0],
+                    categoriesIds = categories,
                     searchString = search.FirstOrDefault() ?? string.Empty,
                     authorId = "",
                     categoriesPageNumber2 = 1,

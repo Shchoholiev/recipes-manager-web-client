@@ -65,6 +65,7 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
                     pageNumber
                     pageSize
                     items {
+                      id
                       name
                     }
                   }
