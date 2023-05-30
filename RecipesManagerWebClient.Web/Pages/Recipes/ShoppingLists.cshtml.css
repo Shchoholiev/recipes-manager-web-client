@@ -1,0 +1,136 @@
+﻿body {
+}
+.container {
+    padding: auto;
+    max-width: 70%;
+    margin: 0 auto;
+    font-size: 16px;
+    font-weight: 600;
+
+    @media screen and (max-width: 768px) {
+        padding-top: 3rem;
+        max-width: 80%;
+    }
+}
+
+.toggle-menu {
+    /*overflow: hidden;*/
+    background-color: var(--white);
+    position: relative;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+    .toggle-menu a {
+        color: white;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        display: block;
+    }
+
+.list-title {
+    background-color: var(--dart-green);
+    color: white;
+    border-radius: 8px;
+}
+
+.toggle-menu a.icon {
+    background: var(--dart-green);
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 8px;
+}
+
+.igredients-wrapper {
+    max-width: 50%;
+    margin: 0 auto;
+
+    @media screen and (max-width: 1300px) {
+        max-width: 60%;
+    }
+
+    @media screen and (max-width: 768px) {
+        max-width: 70%;
+    }
+
+    @media only screen and (max-width: 600px) {
+        max-width: 100%;
+    }
+}
+
+.toggle-menu .toggle-items {
+    display: none;
+    list-style-type: none; /* Remove default list style */
+    padding: 15px 0 5px 0; /* Remove default padding */
+}
+
+/* Change font color of list items */
+.toggle-items li {
+    color: var(--black);
+    padding: 14px 16px;
+    border-radius: 7px;
+    margin-bottom: 10px;
+    background-color: var(--light-grey);
+}
+
+
+    .toggle-items li::before {
+        content: none;
+    }
+
+.custom-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 20px; 
+    width: 20px; 
+    border: 2px solid #999;
+    border-radius: 4px;
+    outline: none;
+    transition: background-color 0.3s, border-color 0.3s;
+    vertical-align: middle;
+    position: relative;
+}
+
+.custom-checkbox:checked {
+    background-color: var(--green); 
+    border-color: var(--dart-green); 
+}
+
+.custom-checkbox:checked::before {
+     content: '\2713'; /* Insert checkmark symbol */
+     color: white; /* Change tick color */
+     font-size: 14px; 
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+}
+
+.toggle-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.toggle-items label {
+    padding-left: 10px;
+}
+.toggle-item-label {
+    text-align: justify;
+}
+
+.menu-arrow {
+    transition: transform 0.4s;
+}
+
+.menu-arrow.rotated {
+    transform: rotate(180deg);
+}
+.add-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

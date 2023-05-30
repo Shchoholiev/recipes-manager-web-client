@@ -22,6 +22,7 @@ public class Recipe
     public int? ServingsCount { get; set; }
 
     public bool IsSaved { get; set; }
+    public bool IsPublic { get; set; }
 
     public string CreatedById { get; set; }
 

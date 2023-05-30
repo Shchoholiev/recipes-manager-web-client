@@ -1,0 +1,65 @@
+﻿@page "/author/"
+@model RecipesManagerWebClient.Web.Pages.Profile.AuthorModel
+@{
+    string userId = Request.Query["userId"];
+    var user = Model.Recipes.FirstOrDefault(r => r.CreatedBy.Id == userId)?.CreatedBy;
+    int recipeCount = Model.Recipes.Count(r => r.CreatedBy.Id == userId);
+}
+<div class="container">
+
+    @if (user != null)
+    {
+          <div class="author-info">
+                <div class="author-picture"></div>
+                <p class="name">@user.Name</p>
+                <form b-oplgw5qro9 method="post" enctype="multipart/form-data" class="follow">
+				    <button class="follow" type="submit" >Follow</button>
+                </form>              
+                <p class="num-of-recipes info">
+                    <span class="number">@recipeCount</span> recipes
+                </p>
+                <p class="num-of-followers info">
+                    <span class="number">0</span> followers
+                </p>
+                <p class="bio">
+                Hi! I'm @user.Name and I'm passionate about cooking and exploring new flavors. Join me on my culinary journey as I share my favorite recipes and cooking tips. Let's create delicious meals together!
+                </p>
+            </div>
+            <div class="dishes">
+                @foreach (var recipe in Model.Recipes)
+                {
+                    if (recipe.CreatedBy.Id == userId)
+                    {
+                    var imageUrl = "/assets/no-image.svg";
+                    if (recipe.Thumbnail != null)
+                    {
+                        imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
+                    }
+
+                    <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+                        <div class="dish-title">@recipe.Name</div>
+                        <div class="dish-author">@recipe.CreatedBy.Name</div>
+                        <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
+                        <div class="dish-time">@recipe.MinutesToCook min</div>
+                        @if (recipe.IsSaved)
+                        {
+                            <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
+                        }
+                        else
+                        {
+                            <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
+                        }
+                    </div>
+                    }
+                }
+            </div>
+            
+    }
+    else
+    {
+        <p>User not found.</p>
+    }
+    
+
+    
+</div>
