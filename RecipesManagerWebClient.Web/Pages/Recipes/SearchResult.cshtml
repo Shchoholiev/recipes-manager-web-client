@@ -3,7 +3,7 @@
 <div class="container">
     <div class="content">
         <p>Search result</p>
-        <p class="count-results"></p>
+		<p class="count-results">@Model.TotalItems results</p>
     </div>
     <div class="dishes">
         @foreach (var recipe in Model.Recipes)
@@ -14,7 +14,7 @@
                 imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
             }
 
-            <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+            <a class="dish-item" href="/recipe?recipeId=@recipe.Id" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
                 <div class="dish-title">@recipe.Name</div>
                 <div class="dish-author">@recipe.CreatedBy.Name</div>
                 <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
@@ -27,16 +27,37 @@
                 {
                     <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
                 }
-            </div>
+            </a>
+        }
+    </div>
+    <div class="pagination">
+        @if (Model.TotalPages > 1)
+        {
+            for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                if (Model.CurrentPage == i)
+                {
+                    <button class="page-link page-link-active">@i</button>
+                }
+                else
+                {
+                    <button class="page-link">@i</button>
+
+                }
+
+            }
         }
     </div>
 </div>
 <script>
-    const countResults = document.querySelector(".count-results")
-    const dishes = document.querySelectorAll(".dish-item")
     const urlParams = new URLSearchParams(window.location.search);
     const searchTerm = urlParams.get("search");
-    countResults.innerHTML = dishes.length + " results"
-    
+    const pageButtons = document.querySelectorAll(".page-link");
+    pageButtons.forEach((pageButton) => {
+        pageButton.addEventListener("click", function () {
+            const buttonNumber = encodeURIComponent(pageButton.innerHTML);
+            window.location.href = "/searchresult?pageSearch=" + buttonNumber;
+        })
+    })
 
 </script>

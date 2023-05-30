@@ -1,0 +1,32 @@
+﻿@page "/menus"
+@model RecipesManagerWebClient.Web.Pages.Menus.MenusModel
+@{
+}
+<div class="container">
+    <div class="menus-title">Menus</div>
+
+    @if (Model.TotalMenus > 0)
+    {
+       <div class="menus-add"><img src="assets/add.svg" alt="add menu"></div>
+        <div class="menus-items">
+            @foreach(var menu in Model.Menus)
+            {
+                <div class="menus-item" id="@menu.Id">@menu.Name</div>
+            }       
+       </div>
+    }
+    else
+    {
+        <p>You haven't created any menus yet. <a href="#"> Create one!</a></p>
+    }
+    
+ </div>
+<script>
+    var menuItems = document.getElementsByClassName('menus-item');
+    for (var i = 0; i < menuItems.length; i++) {
+        menuItems[i].addEventListener('click', function (event) {
+            var menuId = event.target.id;
+            window.location.href = '/menu?menuid=' + menuId;
+        });
+    }
+</script>

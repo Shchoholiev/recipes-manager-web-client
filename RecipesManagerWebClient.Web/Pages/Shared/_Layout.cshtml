@@ -8,6 +8,7 @@
     <!--<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RecipesManagerWebClient.Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="icon" type="image/svg+xml" href="~/assets/logo.svg">
 
 </head>
@@ -17,7 +18,7 @@
             <p class="logo">Bite.</p>
             <div class="nav-menu">
                 <a href="/search" class="menu-item">Home</a>
-                <a href="/lists" class="menu-item">Shopping lists</a>
+                <a href="/shoppinglists" class="menu-item">Shopping lists</a>
                 <a href="/menus" class="menu-item">Menus</a>
                 <button class="create">Create</button>
             </div>
@@ -43,17 +44,16 @@
             </button>
         </div>
     </header>
-            @RenderBody()
-        <div class="filter-bar">
-            <div class="filter-area">
-                <p class="filter-title">Filter Search</p>
-                <div class="filter-category">
+    @RenderBody()
+    <div class="filter-bar">
+        <div class="filter-area">
+            <p class="filter-title">Filter Search</p>
+            <div class="filter-category">
                 @{
                     var categoriesProperty = Model.GetType().GetProperty("Categories");
                     var categories = categoriesProperty != null ? categoriesProperty.GetValue(Model) as IEnumerable<dynamic> : null;
 
                     var uniqueCategories = categories?
-                    .Select(c => c.Name)
                     .Distinct()
                     .ToList();
                 }
@@ -62,23 +62,23 @@
                 {
                     @foreach (var category in uniqueCategories)
                     {
-                        <button class="filter-btn">@category</button>
+                        <button value="@category.Id" class="filter-btn">@category.Name</button>
                     }
                 }
             </div>
-                <button class="apply-filter">Filter</button>
+            <button class="apply-filter">Filter</button>
 
-            </div>
         </div>
+    </div>
 
 
     <footer>
         <div class="socials">
-            <a href="#"><img src="assets/facebook.svg" alt="facebook" /></a>
-            <a href="#"><img src="assets/instagram.svg" alt="instagram" /></a>
-            <a href="#"><img src="assets/linkedin.svg" alt="linkedIn" /></a>
-            <a href="#"><img src="assets/twitter.svg" alt="twitter" /></a>
-            <a href="#"><img src="assets/github.svg" alt="github" /></a>
+            <a href="#"><img src="/assets/facebook.svg" alt="facebook" /></a>
+            <a href="#"><img src="/assets/instagram.svg" alt="instagram" /></a>
+            <a href="#"><img src="/assets/linkedin.svg" alt="linkedIn" /></a>
+            <a href="#"><img src="/assets/twitter.svg" alt="twitter" /></a>
+            <a href="#"><img src="/assets/github.svg" alt="github" /></a>
         </div>
         <p class="logo">Bite.</p>
         <p class="copy">Copyright © 2023 Bite. Inc.</p>
@@ -107,6 +107,12 @@
                 menuItem.classList.add('active');
             }
         });
+
+        const goToProfile = document.querySelector(".avatar");
+        goToProfile.addEventListener('click', () => {
+            window.location.href = "/user";
+        });
+
     </script>
     @await RenderSectionAsync("Scripts", required: false)
     

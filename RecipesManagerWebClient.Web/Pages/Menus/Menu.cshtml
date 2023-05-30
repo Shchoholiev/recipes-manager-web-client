@@ -1,0 +1,99 @@
+﻿@page "/menu"
+@model RecipesManagerWebClient.Web.Pages.Menus.MenuModel
+@{
+}
+<div class="container">
+    <div class="menu-title">@Model.Menu.Name</div>
+    <div class="menu-info">
+        @Model.Menu.Notes
+    </div>
+    <button class="more"><img src="assets/more.svg" alt="more" /></button>
+    <div class="dishes">
+        @foreach (var recipe in Model.Recipes)
+        {
+            var imageUrl = "/assets/no-image.svg";
+            if (recipe.Thumbnail != null)
+            {
+                imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
+            }
+
+            <a class="dish-item" href="/recipe?recipeId=@recipe.Id" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+                <div class="dish-title">@recipe.Name</div>
+                <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
+                <div class="dish-time">@recipe.MinutesToCook min</div>
+                @if (recipe.IsSaved)
+                {
+                    <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/saved.svg" /></div>
+                }
+                else
+                {
+                    <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
+                }
+            </a>
+        }
+    </div>
+</div>
+<div class="menu-info-block">
+    <div class="info-inner-box">
+        <div class="send">
+            <img src="assets/send.svg" alt="send" />
+            <p>send to a contact</p>
+        </div>
+        <div class="edit" id="edit-menu">
+            <img src="assets/edit.svg" alt="edit" />
+            <p>edit</p>
+        </div>
+        <div class="delete">
+            <img src="assets/trash.svg" alt="delete" />
+            <p>delete menu</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const infoButton = document.querySelector(".more");
+    const infoBlock = document.querySelector(".menu-info-block");
+
+    infoButton.addEventListener("click", () => {
+        if (infoBlock.style.display === "none" || infoBlock.style.display === "") {
+            infoBlock.style.opacity = "0";
+            infoBlock.style.display = "block";
+            setTimeout(() => {
+                infoBlock.style.opacity = "1";
+            }, 10);
+        } else {
+            infoBlock.style.opacity = "0";
+            infoBlock.addEventListener("transitionend", () => {
+                infoBlock.style.display = "none";
+            }, { once: true });
+        }
+    });
+
+    infoBlock.addEventListener("click", toggleMenuBlock);
+
+    function toggleMenuBlock() {
+        infoBlock.style.opacity = "0";
+        infoBlock.addEventListener("transitionend", () => {
+            infoBlock.style.display = "none";
+        }, { once: true });
+    }
+
+    document.getElementById("edit-menu").addEventListener("click", function () {
+        // Get the menu ID from the URL query parameter
+        var menuId = getParameterByName("menuid");
+
+        // Redirect to the menu edit page with the menu ID as a query parameter
+        window.location.href = "/menuedit?menuid=" + menuId;
+    });
+
+    // Helper function to extract URL query parameters
+    function getParameterByName(name) {
+        var url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return "";
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+</script>

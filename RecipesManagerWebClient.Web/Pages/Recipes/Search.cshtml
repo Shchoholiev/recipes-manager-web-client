@@ -17,7 +17,7 @@
                 imageUrl = Model.ImageUrl + recipe.Thumbnail.SmallPhotoGuid.ToString() + "." + recipe.Thumbnail.Extension;
             }
 
-            <div class="dish-item" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
+            <a class="dish-item" href="/recipe?recipeId=@recipe.Id" style="background:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%), url(@imageUrl)">
                 <div class="dish-title">@recipe.Name</div>
                 <div class="dish-author">@recipe.CreatedBy.Name</div>
                 <div class="timer"><img b-c3mbu1qqil src="~/assets/timer.svg" /></div>
@@ -30,7 +30,7 @@
                 {
                     <div class="dish-saved"><img b-c3mbu1qqil src="~/assets/unsaved.svg" /></div>
                 }
-            </div>
+            </a>
         }
 
     </div>
@@ -45,10 +45,32 @@
     </form>
 
     <a href="/search?search=pork">Find port</a>-->
+
+    <div class="pagination">
+        @if (Model.TotalPages > 1)
+        {
+            for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                if(Model.CurrentPage == i)
+                {
+                    <button class="page-link page-link-active">@i</button>
+                }
+                else
+                {
+                    <button class="page-link">@i</button>
+
+                }
+
+            }
+        }
+    </div>
+
 </div>
+
 <script>
     let activeButton = null;
     const sidebarButtons = document.querySelectorAll(".sidebar-btn");
+    const pageButtons = document.querySelectorAll(".page-link");
 
     function activateSidebarButton(event) {
         event.preventDefault(); // Prevent page refresh
@@ -90,5 +112,11 @@
         sessionStorage.setItem("activeButton", activeButton);
     });
 
+    pageButtons.forEach((pageButton) =>{
+        pageButton.addEventListener("click", function () {
+            const buttonNumber = encodeURIComponent(pageButton.innerHTML);
+        window.location.href = "/search?page=" + buttonNumber;
+    })
+    })
 
 </script>
