@@ -27,7 +27,7 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
         {
             var search = Request.Query["search"];
             var page = Request.Query["pageSearch"];
-            var categories = Request.Query["categories"];
+            var categories = Request.Query["categories"].ToString().Split(',');
             var pageNumber = 1;
 
             if (!string.IsNullOrEmpty(page) && int.TryParse(page, out int parsedPageNumber))
