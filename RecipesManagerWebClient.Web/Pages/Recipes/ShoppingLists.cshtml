@@ -5,6 +5,7 @@
     <div class="shopping-lists">
         @foreach (var shoppinglist in Model.ShoppingLists)
         {
+            <h3 style="margin: 7px 0;">@shoppinglist.Name</h3>
             @foreach (var recipe in shoppinglist.Recipes)
             {
                 var toggleItemsId = $"toggle-items-{shoppinglist.Id}-{recipe.Id}";
@@ -38,6 +39,7 @@
                     </a>
                 </div>
             }
+            <hr/>
         }
     </div>
     <div class="add-button">
