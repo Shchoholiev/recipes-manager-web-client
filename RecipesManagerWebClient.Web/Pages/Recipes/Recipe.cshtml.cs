@@ -24,9 +24,10 @@ namespace RecipesManagerWebClient.Web.Pages.Recipes
         {
             _apiClient = apiClient;
         }
-        public async Task<IActionResult> OnGetAsync(string id)
+        public async Task<IActionResult> OnGetAsync()
         {
             var type = Request.Query["type"];
+            var id = Request.Query["recipeId"].ToString();
         
 
 
